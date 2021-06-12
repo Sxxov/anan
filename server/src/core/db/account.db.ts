@@ -1,5 +1,5 @@
 import { CustomClaimsItem } from '../../../../common/src/core/items/customClaims.item.js';
-import admin from 'firebase-admin';
+import admin, { ServiceAccount } from 'firebase-admin';
 
 class AccountDBSingleton {
 	private auth: admin.auth.Auth;
@@ -13,7 +13,9 @@ class AccountDBSingleton {
 		// credentials are loaded from ".env"
 		// & subsequently "#ananlol-firebase-adminsdk-...json"
 		const app = admin.initializeApp({
-			credential: admin.credential.applicationDefault(),
+			credential: typeof process.env.INLINE_GOOGLE_APPLICATION_CREDENTIALS === 'string'
+				? admin.credential.cert(JSON.parse(process.env.INLINE_GOOGLE_APPLICATION_CREDENTIALS) as ServiceAccount)
+				: admin.credential.applicationDefault(),
 		});
 
 		this.auth = app.auth();
