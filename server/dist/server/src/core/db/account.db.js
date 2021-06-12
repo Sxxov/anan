@@ -15,7 +15,9 @@ class AccountDBSingleton {
         // credentials are loaded from ".env"
         // & subsequently "#ananlol-firebase-adminsdk-...json"
         const app = admin.initializeApp({
-            credential: admin.credential.applicationDefault(),
+            credential: typeof process.env.INLINE_GOOGLE_APPLICATION_CREDENTIALS === 'string'
+                ? admin.credential.cert(JSON.parse(process.env.INLINE_GOOGLE_APPLICATION_CREDENTIALS))
+                : admin.credential.applicationDefault(),
         });
         this.auth = app.auth();
     }
