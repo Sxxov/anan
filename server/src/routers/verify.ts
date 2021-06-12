@@ -3,17 +3,19 @@ import express from 'express';
 import multer from 'multer';
 import { AccountDB } from '../core/db/account.db.js';
 
-const router = express.Router();
-const upload = multer({ storage: multer.memoryStorage() });
+export const getVerifyRouter = () => {
+	const router = express.Router();
+	const upload = multer({ storage: multer.memoryStorage() });
 
-router.post('/submit/ic', upload.single('ic'), async (req, res) => {
-	const { token } = req.body as Record<string, string>;
+	router.post('/submit/ic', upload.single('ic'), async (req, res) => {
+		const { token } = req.body as Record<string, string>;
 
-	// maybe do some actual verification? xd
+		// maybe do some actual verification? xd
 
-	await AccountDB.approveIdentityValidation(token);
+		await AccountDB.approveIdentityValidation(token);
 
-	res.send(String(new ICSuccessVerifyResponse()));
-});
+		res.send(String(new ICSuccessVerifyResponse()));
+	});
 
-export const getVerifyRouter = () => router;
+	return router;
+};
