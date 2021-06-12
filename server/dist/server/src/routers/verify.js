@@ -10,3 +10,4 @@ router.post('/submit/ic', upload.single('ic'), async (req, res) => {
     await AccountDB.approveIdentityValidation(token);
     res.send(String(new ICSuccessVerifyResponse()));
 });
+export const getVerifyRouter = () => router;

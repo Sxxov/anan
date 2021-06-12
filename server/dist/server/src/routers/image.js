@@ -9,4 +9,4 @@ router.get('/random', async (req, res) => {
     const item = await new RandomImageItemFactory(process.env.UNSPLASH_ACCESS_KEY).create();
     res.send(String(item));
 });
-export const RouterImage = router;
+export const getImageRouter = () => router;

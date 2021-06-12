@@ -9,8 +9,6 @@ import { Distresser } from '../core/distresser.js';
 import { DistressSignalEmitSuccessWSResponse, DistressSignalListWSResponse } from '../../../common/src/resources/responses/ws/distress.ws.response.js';
 import { DistressItem } from '../../../common/src/core/items/distress.item.js';
 import { TopicItemFactory } from '../../../common/src/core/items/topic.item.js';
-import expressWS from 'express-ws';
-expressWS(express());
 const router = express.Router();
 router.ws('/echo', (ws) => {
     ws.on('message', (msg) => {
@@ -107,4 +105,4 @@ router.ws('/connect', async (ws, req) => {
         Ctx.clients.get(targetConnection)?.send(String(new DistressSignalListWSResponse(signals)));
     }
 });
-export const RouterWS = router;
+export const getWSRouter = () => router;
