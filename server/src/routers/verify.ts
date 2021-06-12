@@ -15,3 +15,5 @@ router.post('/submit/ic', upload.single('ic'), async (req, res) => {
 
 	res.send(String(new ICSuccessVerifyResponse()));
 });
+
+export const getVerifyRouter = () => router;

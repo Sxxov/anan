@@ -14,4 +14,4 @@ router.get('/random', async (req, res) => {
 	res.send(String(item));
 });
 
-export const RouterImage = router;
+export const getImageRouter = () => router;
