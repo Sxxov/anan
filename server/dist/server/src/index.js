@@ -16,4 +16,4 @@ app.get('/api/v1', (req, res) => {
 });
 app.use('/api/v1/ws', RouterWS);
 app.use('/api/v1/image', RouterImage);
-app.listen(6969 /* PORT */);
+app.listen(process.env.PORT ?? 6969 /* DEFAULT_PORT */);
