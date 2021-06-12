@@ -1,0 +1,12 @@
+:root {
+	--colour-accent-primary: #ff4f72;
+	--colour-accent-secondary: #ff4f7233;
+	--filter-accent-primary: brightness(0) saturate(100%) invert(60%) sepia(69%) saturate(6140%) hue-rotate(324deg) brightness(112%) contrast(101%);
+	--colour-warn-primary: #ff9f43;
+	--colour-warn-secondary: #feca57;
+	--colour-error-primary: #ee5253;
+	--colour-error-secondary: #ff6b6b;
+	--colour-ok-primary: #2ed573;
+	--colour-ok-secondary: #7bed9f;
+	--colour-overlay: black;
+}

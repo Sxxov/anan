@@ -1,0 +1,7 @@
+:root.theme\:dark {
+	--colour-text-primary: #ebf0f7;
+	--colour-text-secondary: #c9cfd6;
+	--colour-background-primary: #0c0c0d;
+	--colour-background-secondary: #161718;
+	--filter-text-secondary: brightness(0) saturate(100%) invert(90%) sepia(5%) saturate(686%) hue-rotate(193deg) brightness(107%) contrast(94%);
+}

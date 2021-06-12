@@ -1,0 +1,678 @@
+diff --git a/node_modules/eslint-svelte3-preprocess/README.md b/node_modules/eslint-svelte3-preprocess/README.md
+index ffa3f79..abfbae3 100644
+--- a/node_modules/eslint-svelte3-preprocess/README.md
++++ b/node_modules/eslint-svelte3-preprocess/README.md
+@@ -16,7 +16,7 @@ pnpm i -D eslint-svelte3-preprocess
+ 
+ ## Usage
+ 
+-After following the docs of [`eslint-plugin-svelte3`](https://github.com/sveltejs/eslint-plugin-svelte3) to configure your `eslintrc.js` file, you will need to add some props required by [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser) and finally import your `svelte.config` file (if you would like to use the same configuration) and call the `elint-plugin-svelte3-preprocess` passing your preprocess as a parameter.
++After following the docs of [`eslint-plugin-svelte3`](https://github.com/sveltejs/eslint-plugin-svelte3) to configure your `eslintrc.js` file, you will need to add some props required by [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser) and finally import your `svelte.config` file (if you would like to use the same configuration) and call the `elint-plugin-svelte3-preprocess` passing your `autoPreprocessConfig` as a parameter.
+ 
+ This is a example that works!
+ 
+@@ -49,7 +49,10 @@ module.exports = {
+         }
+     ],
+     settings: {
+-        'svelte3/preprocess': eslintSveltePreprocess(svelteConfig.preprocess),
++    	// This fork uses workers along with `deasync`
++    	// The preprocesssor object contains functions, and cannot be cloned
++    	// So just use the naked configuration option, you would pass into `svelte-preprocess`
++        'svelte3/preprocess': eslintSveltePreprocess(svelteConfig.autoPreprocessConfig),
+ 	},
+ };
+ 
+diff --git a/node_modules/eslint-svelte3-preprocess/dist-node/index.js b/node_modules/eslint-svelte3-preprocess/dist-node/index.js
+index abd9bf1..89d7bf3 100644
+--- a/node_modules/eslint-svelte3-preprocess/dist-node/index.js
++++ b/node_modules/eslint-svelte3-preprocess/dist-node/index.js
+@@ -4,9 +4,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
+ 
+ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+ 
++var worker_threads = require('worker_threads');
+ var compiler = require('svelte/compiler');
+-var deasyncPromise = _interopDefault(require('deasync-promise'));
+ var esTree = _interopDefault(require('@typescript-eslint/typescript-estree'));
++var autoProcess = require('svelte-preprocess/dist/autoProcess');
++var url = require('url');
+ 
+ function _defineProperty(obj, key, value) {
+   if (key in obj) {
+@@ -57,91 +59,241 @@ function _objectSpread2(target) {
+   return target;
+ }
+ 
+-const eslintSveltePreprocess = preprocessors => (src, filename) => {
+-  let markup;
+-  let module;
+-  let instance;
+-  let style;
+-  const res = deasyncPromise(compiler.preprocess(src, [{
+-    markup: ({
+-      content
+-    }) => {
+-      markup = {
+-        original: content
+-      };
+-    },
+-    script: ({
+-      content,
+-      attributes
+-    }) => {
+-      // Supported scenarios
+-      // type="text/typescript"
+-      // lang="typescript"
+-      // lang="ts"
+-      if (attributes.lang === "ts" || attributes.lang === "typescript" || attributes.type === "text/typescript") {
+-        const ast = esTree.parse(content, {
+-          loc: true
+-        });
+-        const obj = {
+-          ast,
+-          original: content,
+-          ext: "ts"
+-        };
++let eslintSveltePreprocess;
++let lastResult;
+ 
+-        if (attributes.context) {
+-          module = obj;
+-        } else {
+-          instance = obj;
+-        }
+-      }
+-    },
+-    style: ({
+-      content
+-    }) => {
+-      style = {
+-        original: content
+-      };
++if (worker_threads.isMainThread) {
++  eslintSveltePreprocess = main();
++} else {
++  worker();
++}
++
++function main() {
++  // Declaring everything here instead of inside the anon function (`(autoPreprocessConfig) => ...`)
++  // gives a huge perf boost for some reason
++  // if declared inside, there seems to be a bottleneck messaging the worker, taking up ~300ms
++  // this is the same bottleneck of starting a new worker every call
++  // without it, it takes mere milliseconds to preprocess everything
++  const isDoneBuffer = new SharedArrayBuffer(4);
++  const isDoneView = new Int32Array(isDoneBuffer);
++  const dataBuffer = new SharedArrayBuffer(50 * 1024 * 1024);
++  const dataView = new Uint8Array(dataBuffer);
++  const dataLengthBuffer = new SharedArrayBuffer(4);
++  const dataLengthView = new Uint32Array(dataLengthBuffer);
++  const isRunningOnce = !process.argv.includes("--node-ipc");
++  let currentFileLocation = "";
++
++  try {
++    var _import$meta;
++
++    currentFileLocation = __filename; // `import.meta.url` is needed for esm interop
++    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment
++    // @ts-ignore
++
++    currentFileLocation = url.fileURLToPath((_import$meta = ({ url: (typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('index.js', document.baseURI).href)) })) === null || _import$meta === void 0 ? void 0 : _import$meta.url);
++  } catch (_) {//
++  }
++
++  console.log("currentFileLocation", currentFileLocation);
++  let worker = getNewWorker();
++  return autoPreprocessConfig => (src, filename) => {
++    let result;
++
++    if (worker === undefined) {
++      worker = getNewWorker();
+     }
+-  }, ...(Array.isArray(preprocessors) ? preprocessors : [preprocessors]), {
+-    markup: ({
+-      content
+-    }) => {
+-      if (markup) {
+-        markup.result = content;
+-        markup.diff = markup.original.length - content.length;
+-      }
+-    },
+-    script: ({
+-      content,
+-      attributes
+-    }) => {
+-      const obj = attributes.context ? module : instance;
+-
+-      if (obj) {
+-        obj.result = content;
+-        obj.diff = obj.original.length - content.length;
+-      }
+-    },
+-    style: ({
+-      content
+-    }) => {
+-      if (style) {
+-        style.result = content;
+-        style.diff = style.original.length - content.length;
++
++    console.log("Main:", "Sending request to worker");
++    worker.postMessage({
++      src,
++      filename,
++      autoPreprocessConfig
++    });
++    console.log("Main:", "Locking thread to wait for response from worker");
++    const waitResult = Atomics.wait(isDoneView, 0, 0, 5000);
++    console.log("Main:", `Worker wait result: ${waitResult}`);
++    Atomics.store(isDoneView, 0, 0);
++    const textDecoder = new TextDecoder();
++    const decoded = textDecoder.decode(dataView.subarray(0, dataLengthView[0]));
++
++    try {
++      result = JSON.parse(decoded); // It is possible for JSON.parse to return "undefined", eg. in SyntaxErrors
++      // so catch that and return a cached result instead of letting ESLint panic
++
++      if (!result) {
++        throw new Error(`Result is invalid (${String(result)})`);
+       }
++    } catch (err) {
++      console.log("Main:", `Parsing JSON returned an error, returning \`lastResult\``);
++      console.log(err);
++      return lastResult;
+     }
+-  }], {
+-    filename: filename || "unknown"
+-  }));
+-  return _objectSpread2(_objectSpread2({}, res), {}, {
+-    module,
+-    instance,
+-    style,
+-    markup
++
++    console.log("Main:", "Result is valid, returning `result`");
++
++    if (isRunningOnce) {
++      setTimeout(async () => {
++        var _worker;
++
++        await ((_worker = worker) === null || _worker === void 0 ? void 0 : _worker.terminate());
++        worker = undefined;
++      }, 0);
++    }
++
++    lastResult = result;
++    return result;
++  };
++
++  function getNewWorker() {
++    return new worker_threads.Worker(currentFileLocation, {
++      workerData: [isDoneView, dataView, dataLengthView, isRunningOnce]
++    });
++  }
++}
++
++function worker() {
++  if (worker_threads.parentPort === null) {
++    throw new Error("parentPort is null");
++  }
++
++  let result;
++  worker_threads.parentPort.on("message", async message => {
++    console.log("Worker: Message:", "Received preprocessors");
++
++    try {
++      result = await preprocess(message);
++      console.log("Worker: Message: Success!");
++    } catch (err) {
++      console.log("Worker: Message: Error:", err);
++      result = undefined;
++    }
++
++    console.log("Worker: Message:", "Writing preprocess result");
++    const [isDoneView, dataView, dataLengthView] = worker_threads.workerData;
++    const textEncoder = new TextEncoder();
++    const encodedResult = textEncoder.encode(result === undefined ? "" : JSON.stringify(result));
++    dataView.set(encodedResult, 0);
++    dataLengthView[0] = encodedResult.length;
++    console.log("Worker: Message:", "Unlocking main thread");
++    Atomics.store(isDoneView, 0, 1);
++    Atomics.notify(isDoneView, 0, Number(Infinity));
+   });
+-};
++
++  async function preprocess({
++    src,
++    filename,
++    autoPreprocessConfig
++  }) {
++    let markup;
++    let module;
++    let instance;
++    let style;
++    console.log("Worker: Preprocess:", "Starting preprocess");
++    const result = await compiler.preprocess(src, [{
++      markup: ({
++        content
++      }) => {
++        markup = {
++          original: content
++        };
++        return {
++          code: content
++        };
++      },
++      script: ({
++        content,
++        attributes
++      }) => {
++        // Supported scenarios
++        // type="text/typescript"
++        // lang="typescript"
++        // lang="ts"
++        if (attributes.lang === "ts" || attributes.lang === "typescript" || attributes.type === "text/typescript") {
++          const ast = esTree.parse(content, {
++            loc: true
++          });
++          const obj = {
++            ast,
++            original: content,
++            ext: "ts"
++          };
++
++          if (attributes.context) {
++            module = obj;
++          } else {
++            instance = obj;
++          }
++        }
++
++        return {
++          code: content
++        };
++      },
++      style: ({
++        content
++      }) => {
++        style = {
++          original: content
++        };
++        return {
++          code: content
++        };
++      }
++    }, autoProcess.sveltePreprocess(autoPreprocessConfig), {
++      markup: ({
++        content
++      }) => {
++        if (markup) {
++          markup.result = content;
++          markup.diff = markup.original.length - content.length;
++        }
++
++        return {
++          code: content
++        };
++      },
++      script: ({
++        content,
++        attributes
++      }) => {
++        const obj = attributes.context ? module : instance;
++
++        if (obj) {
++          obj.result = content;
++          obj.diff = obj.original.length - content.length;
++        }
++
++        return {
++          code: content
++        };
++      },
++      style: ({
++        content
++      }) => {
++        if (style) {
++          style.result = content;
++          style.diff = style.original.length - content.length;
++        }
++
++        return {
++          code: content
++        };
++      }
++    }], {
++      filename: filename || "unknown"
++    });
++    console.log("Worker: Preprocess:", "Gotten result from `svelteCompilerPreprocess`");
++    return _objectSpread2(_objectSpread2({}, result), {}, {
++      instance: instance,
++      markup: markup,
++      module: module,
++      style: style
++    });
++  }
++}
+ 
+ module.exports = eslintSveltePreprocess;
++var eslintSveltePreprocess$1 = eslintSveltePreprocess;
+ 
+-exports.default = eslintSveltePreprocess;
++exports.default = eslintSveltePreprocess$1;
+ //# sourceMappingURL=index.js.map
+diff --git a/node_modules/eslint-svelte3-preprocess/dist-node/index.js.map b/node_modules/eslint-svelte3-preprocess/dist-node/index.js.map
+index 1aae175..8fa14d1 100644
+--- a/node_modules/eslint-svelte3-preprocess/dist-node/index.js.map
++++ b/node_modules/eslint-svelte3-preprocess/dist-node/index.js.map
+@@ -1 +1 @@
+-{"version":3,"file":"index.js","sources":["../dist-src/index.js"],"sourcesContent":["import { preprocess } from \"svelte/compiler\";\nimport deasyncPromise from \"deasync-promise\";\nimport esTree from \"@typescript-eslint/typescript-estree\";\nconst eslintSveltePreprocess = (preprocessors) => (src, filename) => {\n    let markup;\n    let module;\n    let instance;\n    let style;\n    const res = deasyncPromise(preprocess(src, [\n        {\n            markup: ({ content }) => {\n                markup = {\n                    original: content,\n                };\n            },\n            script: ({ content, attributes }) => {\n                // Supported scenarios\n                // type=\"text/typescript\"\n                // lang=\"typescript\"\n                // lang=\"ts\"\n                if (attributes.lang === \"ts\" ||\n                    attributes.lang === \"typescript\" ||\n                    attributes.type === \"text/typescript\") {\n                    const ast = esTree.parse(content, { loc: true });\n                    const obj = {\n                        ast,\n                        original: content,\n                        ext: \"ts\",\n                    };\n                    if (attributes.context) {\n                        module = obj;\n                    }\n                    else {\n                        instance = obj;\n                    }\n                }\n            },\n            style: ({ content }) => {\n                style = {\n                    original: content,\n                };\n            },\n        },\n        ...(Array.isArray(preprocessors) ? preprocessors : [preprocessors]),\n        {\n            markup: ({ content }) => {\n                if (markup) {\n                    markup.result = content;\n                    markup.diff = markup.original.length - content.length;\n                }\n            },\n            script: ({ content, attributes }) => {\n                const obj = attributes.context ? module : instance;\n                if (obj) {\n                    obj.result = content;\n                    obj.diff = obj.original.length - content.length;\n                }\n            },\n            style: ({ content }) => {\n                if (style) {\n                    style.result = content;\n                    style.diff = style.original.length - content.length;\n                }\n            },\n        },\n    ], { filename: filename || \"unknown\" }));\n    return {\n        ...res,\n        module,\n        instance,\n        style,\n        markup,\n    };\n};\nmodule.exports = eslintSveltePreprocess;\nexport default eslintSveltePreprocess;\n"],"names":["eslintSveltePreprocess","preprocessors","src","filename","markup","module","instance","style","res","deasyncPromise","preprocess","content","original","script","attributes","lang","type","ast","esTree","parse","loc","obj","ext","context","Array","isArray","result","diff","length","exports"],"mappings":"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"}
+\ No newline at end of file
++{"version":3,"file":"index.js","sources":["../dist-src/index.js"],"sourcesContent":["import { Worker, parentPort, isMainThread, workerData } from \"worker_threads\";\r\nimport { preprocess as svelteCompilerPreprocess } from \"svelte/compiler\";\r\nimport esTree from \"@typescript-eslint/typescript-estree\";\r\nimport { sveltePreprocess as sveltePreprocessAutoPreprocess } from \"svelte-preprocess/dist/autoProcess\";\r\nimport { fileURLToPath } from \"url\";\r\nlet eslintSveltePreprocess;\r\nlet lastResult;\r\nif (isMainThread) {\r\n    eslintSveltePreprocess = main();\r\n}\r\nelse {\r\n    worker();\r\n}\r\nfunction main() {\r\n    // Declaring everything here instead of inside the anon function (`(autoPreprocessConfig) => ...`)\r\n    // gives a huge perf boost for some reason\r\n    // if declared inside, there seems to be a bottleneck messaging the worker, taking up ~300ms\r\n    // this is the same bottleneck of starting a new worker every call\r\n    // without it, it takes mere milliseconds to preprocess everything\r\n    const isDoneBuffer = new SharedArrayBuffer(4);\r\n    const isDoneView = new Int32Array(isDoneBuffer);\r\n    const dataBuffer = new SharedArrayBuffer(50 * 1024 * 1024);\r\n    const dataView = new Uint8Array(dataBuffer);\r\n    const dataLengthBuffer = new SharedArrayBuffer(4);\r\n    const dataLengthView = new Uint32Array(dataLengthBuffer);\r\n    const isRunningOnce = !process.argv.includes(\"--node-ipc\");\r\n    let currentFileLocation = \"\";\r\n    try {\r\n        currentFileLocation = __filename;\r\n        // `import.meta.url` is needed for esm interop\r\n        // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment\r\n        // @ts-ignore\r\n        currentFileLocation = fileURLToPath(import.meta?.url);\r\n    }\r\n    catch (_) {\r\n        //\r\n    }\r\n    console.log(\"currentFileLocation\", currentFileLocation);\r\n    let worker = getNewWorker();\r\n    return (autoPreprocessConfig) => (src, filename) => {\r\n        let result;\r\n        if (worker === undefined) {\r\n            worker = getNewWorker();\r\n        }\r\n        console.log(\"Main:\", \"Sending request to worker\");\r\n        worker.postMessage({\r\n            src,\r\n            filename,\r\n            autoPreprocessConfig,\r\n        });\r\n        console.log(\"Main:\", \"Locking thread to wait for response from worker\");\r\n        const waitResult = Atomics.wait(isDoneView, 0, 0, 5000);\r\n        console.log(\"Main:\", `Worker wait result: ${waitResult}`);\r\n        Atomics.store(isDoneView, 0, 0);\r\n        const textDecoder = new TextDecoder();\r\n        const decoded = textDecoder.decode(dataView.subarray(0, dataLengthView[0]));\r\n        try {\r\n            result = JSON.parse(decoded);\r\n            // It is possible for JSON.parse to return \"undefined\", eg. in SyntaxErrors\r\n            // so catch that and return a cached result instead of letting ESLint panic\r\n            if (!result) {\r\n                throw new Error(`Result is invalid (${String(result)})`);\r\n            }\r\n        }\r\n        catch (err) {\r\n            console.log(\"Main:\", `Parsing JSON returned an error, returning \\`lastResult\\``);\r\n            console.log(err);\r\n            return lastResult;\r\n        }\r\n        console.log(\"Main:\", \"Result is valid, returning `result`\");\r\n        if (isRunningOnce) {\r\n            setTimeout(async () => {\r\n                await worker?.terminate();\r\n                worker = undefined;\r\n            }, 0);\r\n        }\r\n        lastResult = result;\r\n        return result;\r\n    };\r\n    function getNewWorker() {\r\n        return new Worker(currentFileLocation, {\r\n            workerData: [isDoneView, dataView, dataLengthView, isRunningOnce],\r\n        });\r\n    }\r\n}\r\nfunction worker() {\r\n    if (parentPort === null) {\r\n        throw new Error(\"parentPort is null\");\r\n    }\r\n    let result;\r\n    parentPort.on(\"message\", async (message) => {\r\n        console.log(\"Worker: Message:\", \"Received preprocessors\");\r\n        try {\r\n            result = await preprocess(message);\r\n            console.log(\"Worker: Message: Success!\");\r\n        }\r\n        catch (err) {\r\n            console.log(\"Worker: Message: Error:\", err);\r\n            result = undefined;\r\n        }\r\n        console.log(\"Worker: Message:\", \"Writing preprocess result\");\r\n        const [isDoneView, dataView, dataLengthView] = workerData;\r\n        const textEncoder = new TextEncoder();\r\n        const encodedResult = textEncoder.encode(result === undefined ? \"\" : JSON.stringify(result));\r\n        dataView.set(encodedResult, 0);\r\n        dataLengthView[0] = encodedResult.length;\r\n        console.log(\"Worker: Message:\", \"Unlocking main thread\");\r\n        Atomics.store(isDoneView, 0, 1);\r\n        Atomics.notify(isDoneView, 0, Number(Infinity));\r\n    });\r\n    async function preprocess({ src, filename, autoPreprocessConfig, }) {\r\n        let markup;\r\n        let module;\r\n        let instance;\r\n        let style;\r\n        console.log(\"Worker: Preprocess:\", \"Starting preprocess\");\r\n        const result = await svelteCompilerPreprocess(src, [\r\n            {\r\n                markup: ({ content }) => {\r\n                    markup = {\r\n                        original: content,\r\n                    };\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n                script: ({ content, attributes }) => {\r\n                    // Supported scenarios\r\n                    // type=\"text/typescript\"\r\n                    // lang=\"typescript\"\r\n                    // lang=\"ts\"\r\n                    if (attributes.lang === \"ts\" ||\r\n                        attributes.lang === \"typescript\" ||\r\n                        attributes.type === \"text/typescript\") {\r\n                        const ast = esTree.parse(content, { loc: true });\r\n                        const obj = {\r\n                            ast,\r\n                            original: content,\r\n                            ext: \"ts\",\r\n                        };\r\n                        if (attributes.context) {\r\n                            module = obj;\r\n                        }\r\n                        else {\r\n                            instance = obj;\r\n                        }\r\n                    }\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n                style: ({ content }) => {\r\n                    style = {\r\n                        original: content,\r\n                    };\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n            },\r\n            sveltePreprocessAutoPreprocess(autoPreprocessConfig),\r\n            {\r\n                markup: ({ content }) => {\r\n                    if (markup) {\r\n                        markup.result = content;\r\n                        markup.diff = markup.original.length - content.length;\r\n                    }\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n                script: ({ content, attributes }) => {\r\n                    const obj = attributes.context ? module : instance;\r\n                    if (obj) {\r\n                        obj.result = content;\r\n                        obj.diff = obj.original.length - content.length;\r\n                    }\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n                style: ({ content }) => {\r\n                    if (style) {\r\n                        style.result = content;\r\n                        style.diff = style.original.length - content.length;\r\n                    }\r\n                    return {\r\n                        code: content,\r\n                    };\r\n                },\r\n            },\r\n        ], { filename: filename || \"unknown\" });\r\n        console.log(\"Worker: Preprocess:\", \"Gotten result from `svelteCompilerPreprocess`\");\r\n        return {\r\n            ...result,\r\n            instance: instance,\r\n            markup: markup,\r\n            module: module,\r\n            style: style,\r\n        };\r\n    }\r\n}\r\nmodule.exports = eslintSveltePreprocess;\r\nexport default eslintSveltePreprocess;\r\n"],"names":["eslintSveltePreprocess","lastResult","isMainThread","main","worker","isDoneBuffer","SharedArrayBuffer","isDoneView","Int32Array","dataBuffer","dataView","Uint8Array","dataLengthBuffer","dataLengthView","Uint32Array","isRunningOnce","process","argv","includes","currentFileLocation","__filename","fileURLToPath","import","url","_","console","log","getNewWorker","autoPreprocessConfig","src","filename","result","undefined","postMessage","waitResult","Atomics","wait","store","textDecoder","TextDecoder","decoded","decode","subarray","JSON","parse","Error","String","err","setTimeout","terminate","Worker","workerData","parentPort","on","message","preprocess","textEncoder","TextEncoder","encodedResult","encode","stringify","set","length","notify","Number","Infinity","markup","module","instance","style","svelteCompilerPreprocess","content","original","code","script","attributes","lang","type","ast","esTree","loc","obj","ext","context","sveltePreprocessAutoPreprocess","diff","exports"],"mappings":"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"}
+\ No newline at end of file
+diff --git a/node_modules/eslint-svelte3-preprocess/dist-src/index.js b/node_modules/eslint-svelte3-preprocess/dist-src/index.js
+index 11b1600..becc9f7 100644
+--- a/node_modules/eslint-svelte3-preprocess/dist-src/index.js
++++ b/node_modules/eslint-svelte3-preprocess/dist-src/index.js
+@@ -1,76 +1,204 @@
+-import { preprocess } from "svelte/compiler";
+-import deasyncPromise from "deasync-promise";
++import { Worker, parentPort, isMainThread, workerData } from "worker_threads";
++import { preprocess as svelteCompilerPreprocess } from "svelte/compiler";
+ import esTree from "@typescript-eslint/typescript-estree";
+-const eslintSveltePreprocess = (preprocessors) => (src, filename) => {
+-    let markup;
+-    let module;
+-    let instance;
+-    let style;
+-    const res = deasyncPromise(preprocess(src, [
+-        {
+-            markup: ({ content }) => {
+-                markup = {
+-                    original: content,
+-                };
+-            },
+-            script: ({ content, attributes }) => {
+-                // Supported scenarios
+-                // type="text/typescript"
+-                // lang="typescript"
+-                // lang="ts"
+-                if (attributes.lang === "ts" ||
+-                    attributes.lang === "typescript" ||
+-                    attributes.type === "text/typescript") {
+-                    const ast = esTree.parse(content, { loc: true });
+-                    const obj = {
+-                        ast,
++import { sveltePreprocess as sveltePreprocessAutoPreprocess } from "svelte-preprocess/dist/autoProcess";
++import { fileURLToPath } from "url";
++let eslintSveltePreprocess;
++let lastResult;
++if (isMainThread) {
++    eslintSveltePreprocess = main();
++}
++else {
++    worker();
++}
++function main() {
++    // Declaring everything here instead of inside the anon function (`(autoPreprocessConfig) => ...`)
++    // gives a huge perf boost for some reason
++    // if declared inside, there seems to be a bottleneck messaging the worker, taking up ~300ms
++    // this is the same bottleneck of starting a new worker every call
++    // without it, it takes mere milliseconds to preprocess everything
++    const isDoneBuffer = new SharedArrayBuffer(4);
++    const isDoneView = new Int32Array(isDoneBuffer);
++    const dataBuffer = new SharedArrayBuffer(50 * 1024 * 1024);
++    const dataView = new Uint8Array(dataBuffer);
++    const dataLengthBuffer = new SharedArrayBuffer(4);
++    const dataLengthView = new Uint32Array(dataLengthBuffer);
++    const isRunningOnce = !process.argv.includes("--node-ipc");
++    let currentFileLocation = "";
++    try {
++        currentFileLocation = __filename;
++        // `import.meta.url` is needed for esm interop
++        // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error, @typescript-eslint/ban-ts-comment
++        // @ts-ignore
++        currentFileLocation = fileURLToPath(import.meta?.url);
++    }
++    catch (_) {
++        //
++    }
++    console.log("currentFileLocation", currentFileLocation);
++    let worker = getNewWorker();
++    return (autoPreprocessConfig) => (src, filename) => {
++        let result;
++        if (worker === undefined) {
++            worker = getNewWorker();
++        }
++        console.log("Main:", "Sending request to worker");
++        worker.postMessage({
++            src,
++            filename,
++            autoPreprocessConfig,
++        });
++        console.log("Main:", "Locking thread to wait for response from worker");
++        const waitResult = Atomics.wait(isDoneView, 0, 0, 5000);
++        console.log("Main:", `Worker wait result: ${waitResult}`);
++        Atomics.store(isDoneView, 0, 0);
++        const textDecoder = new TextDecoder();
++        const decoded = textDecoder.decode(dataView.subarray(0, dataLengthView[0]));
++        try {
++            result = JSON.parse(decoded);
++            // It is possible for JSON.parse to return "undefined", eg. in SyntaxErrors
++            // so catch that and return a cached result instead of letting ESLint panic
++            if (!result) {
++                throw new Error(`Result is invalid (${String(result)})`);
++            }
++        }
++        catch (err) {
++            console.log("Main:", `Parsing JSON returned an error, returning \`lastResult\``);
++            console.log(err);
++            return lastResult;
++        }
++        console.log("Main:", "Result is valid, returning `result`");
++        if (isRunningOnce) {
++            setTimeout(async () => {
++                await worker?.terminate();
++                worker = undefined;
++            }, 0);
++        }
++        lastResult = result;
++        return result;
++    };
++    function getNewWorker() {
++        return new Worker(currentFileLocation, {
++            workerData: [isDoneView, dataView, dataLengthView, isRunningOnce],
++        });
++    }
++}
++function worker() {
++    if (parentPort === null) {
++        throw new Error("parentPort is null");
++    }
++    let result;
++    parentPort.on("message", async (message) => {
++        console.log("Worker: Message:", "Received preprocessors");
++        try {
++            result = await preprocess(message);
++            console.log("Worker: Message: Success!");
++        }
++        catch (err) {
++            console.log("Worker: Message: Error:", err);
++            result = undefined;
++        }
++        console.log("Worker: Message:", "Writing preprocess result");
++        const [isDoneView, dataView, dataLengthView] = workerData;
++        const textEncoder = new TextEncoder();
++        const encodedResult = textEncoder.encode(result === undefined ? "" : JSON.stringify(result));
++        dataView.set(encodedResult, 0);
++        dataLengthView[0] = encodedResult.length;
++        console.log("Worker: Message:", "Unlocking main thread");
++        Atomics.store(isDoneView, 0, 1);
++        Atomics.notify(isDoneView, 0, Number(Infinity));
++    });
++    async function preprocess({ src, filename, autoPreprocessConfig, }) {
++        let markup;
++        let module;
++        let instance;
++        let style;
++        console.log("Worker: Preprocess:", "Starting preprocess");
++        const result = await svelteCompilerPreprocess(src, [
++            {
++                markup: ({ content }) => {
++                    markup = {
+                         original: content,
+-                        ext: "ts",
+                     };
+-                    if (attributes.context) {
+-                        module = obj;
+-                    }
+-                    else {
+-                        instance = obj;
++                    return {
++                        code: content,
++                    };
++                },
++                script: ({ content, attributes }) => {
++                    // Supported scenarios
++                    // type="text/typescript"
++                    // lang="typescript"
++                    // lang="ts"
++                    if (attributes.lang === "ts" ||
++                        attributes.lang === "typescript" ||
++                        attributes.type === "text/typescript") {
++                        const ast = esTree.parse(content, { loc: true });
++                        const obj = {
++                            ast,
++                            original: content,
++                            ext: "ts",
++                        };
++                        if (attributes.context) {
++                            module = obj;
++                        }
++                        else {
++                            instance = obj;
++                        }
+                     }
+-                }
+-            },
+-            style: ({ content }) => {
+-                style = {
+-                    original: content,
+-                };
+-            },
+-        },
+-        ...(Array.isArray(preprocessors) ? preprocessors : [preprocessors]),
+-        {
+-            markup: ({ content }) => {
+-                if (markup) {
+-                    markup.result = content;
+-                    markup.diff = markup.original.length - content.length;
+-                }
+-            },
+-            script: ({ content, attributes }) => {
+-                const obj = attributes.context ? module : instance;
+-                if (obj) {
+-                    obj.result = content;
+-                    obj.diff = obj.original.length - content.length;
+-                }
++                    return {
++                        code: content,
++                    };
++                },
++                style: ({ content }) => {
++                    style = {
++                        original: content,
++                    };
++                    return {
++                        code: content,
++                    };
++                },
+             },
+-            style: ({ content }) => {
+-                if (style) {
+-                    style.result = content;
+-                    style.diff = style.original.length - content.length;
+-                }
++            sveltePreprocessAutoPreprocess(autoPreprocessConfig),
++            {
++                markup: ({ content }) => {
++                    if (markup) {
++                        markup.result = content;
++                        markup.diff = markup.original.length - content.length;
++                    }
++                    return {
++                        code: content,
++                    };
++                },
++                script: ({ content, attributes }) => {
++                    const obj = attributes.context ? module : instance;
++                    if (obj) {
++                        obj.result = content;
++                        obj.diff = obj.original.length - content.length;
++                    }
++                    return {
++                        code: content,
++                    };
++                },
++                style: ({ content }) => {
++                    if (style) {
++                        style.result = content;
++                        style.diff = style.original.length - content.length;
++                    }
++                    return {
++                        code: content,
++                    };
++                },
+             },
+-        },
+-    ], { filename: filename || "unknown" }));
+-    return {
+-        ...res,
+-        module,
+-        instance,
+-        style,
+-        markup,
+-    };
+-};
++        ], { filename: filename || "unknown" });
++        console.log("Worker: Preprocess:", "Gotten result from `svelteCompilerPreprocess`");
++        return {
++            ...result,
++            instance: instance,
++            markup: markup,
++            module: module,
++            style: style,
++        };
++    }
++}
+ module.exports = eslintSveltePreprocess;
+ export default eslintSveltePreprocess;
+diff --git a/node_modules/eslint-svelte3-preprocess/dist-types/index.d.ts b/node_modules/eslint-svelte3-preprocess/dist-types/index.d.ts
+index a8245ad..0803d8e 100644
+--- a/node_modules/eslint-svelte3-preprocess/dist-types/index.d.ts
++++ b/node_modules/eslint-svelte3-preprocess/dist-types/index.d.ts
+@@ -1,21 +1,4 @@
+-import { PreprocessorGroup } from "svelte/types/compiler/preprocess";
+-interface Script {
+-    ast: unknown;
+-    original: string;
+-    ext: string;
+-    result?: string;
+-    diff?: number;
+-}
+-interface Style {
+-    original: string;
+-    result?: string;
+-    diff?: number;
+-}
+-interface Result {
+-    module: Script;
+-    instance: Script;
+-    style: Style;
+-}
+-declare type proprocessFunction = (src: string, filename: string) => Result;
+-declare const eslintSveltePreprocess: (preprocessors: Readonly<PreprocessorGroup> | ReadonlyArray<Readonly<PreprocessorGroup>>) => proprocessFunction;
++import type { AutoPreprocessOptions, proprocessFunction } from "./types";
++declare let eslintSveltePreprocess: ReturnType<typeof main> | undefined;
++declare function main(): (autoPreprocessConfig: AutoPreprocessOptions) => proprocessFunction;
+ export default eslintSveltePreprocess;

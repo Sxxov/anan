@@ -1,0 +1,37 @@
+{
+	"include": [
+		"**/src/**/*", 
+		"**/types/**/*", 
+		"**/.eslintrc.js",
+		"**/*.config.js",
+		"**/src/**/*",
+		"common/src/**/*",
+	],
+	"exclude": [
+		"node_modules",
+		"public"
+	],
+	"compilerOptions": {
+		"typeRoots": [
+			"node_modules/@types",
+		],
+		"types": [
+			"svelte",
+		],
+		"lib": [
+			"ESNext",
+			"DOM",
+		],
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"module": "es2020",
+		"target": "esnext",
+		"resolveJsonModule": true,
+		"importsNotUsedAsValues": "error",
+		"sourceMap": true,
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"experimentalDecorators": true,
+	}
+}

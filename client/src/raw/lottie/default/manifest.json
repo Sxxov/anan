@@ -1,0 +1,88 @@
+{
+	"background": {
+		"animation": {
+			"in": {
+				"Extrude In": "./background/animation/in/Extrude In.json",
+				"Slice In": "./background/animation/in/Slice In.json",
+				"Slide from Top In": "./background/animation/in/Slide from Top In.json",
+				"Stripe In Random": "./background/animation/in/Stripe In Random.json",
+				"Stripe In": "./background/animation/in/Stripe In.json",
+				"Turn In Random": "./background/animation/in/Turn In Random.json"
+			},
+			"mid": {},
+			"out": {
+				"Slice Out": "./background/animation/out/Slice Out.json",
+				"Slide to Bottom Out": "./background/animation/out/Slide to Bottom Out.json",
+				"Stripe Out Random": "./background/animation/out/Stripe Out Random.json",
+				"Stripe Out": "./background/animation/out/Stripe Out.json",
+				"Turn Out Random": "./background/animation/out/Turn Out Random.json"
+			}
+		}
+	},
+	"base": {
+		"static": {
+			"preset": {
+				"1080p60::10s": "./base/static/preset/1080p60_10s.json",
+				"1080p60::4s": "./base/static/preset/1080p60_4s.json",
+				"1080p60::6s": "./base/static/preset/1080p60_6s.json",
+				"1080p60::8s": "./base/static/preset/1080p60_8s.json"
+			}
+		}
+	},
+	"foreground": {
+		"animation": {
+			"mid": {
+				"Pop Fill::colourAccentPrimary": "./foreground/animation/mid/Pop Fill_colourAccentPrimary.json",
+				"Pop Fill::colourBackgroundPrimary": "./foreground/animation/mid/Pop Fill_colourBackgroundPrimary.json",
+				"Pop Fill::colourTextPrimary": "./foreground/animation/mid/Pop Fill_colourTextPrimary.json",
+				"Pop Line Spam": "./foreground/animation/mid/Pop Line Spam.json",
+				"Pop Spam::colourAccentPrimary": "./foreground/animation/mid/Pop Spam_colourAccentPrimary.json",
+				"Pop Spam::colourAccentSecondary": "./foreground/animation/mid/Pop Spam_colourAccentSecondary.json",
+				"Pop Spam::colourBackgroundSecondary": "./foreground/animation/mid/Pop Spam_colourBackgroundSecondary.json",
+				"Turn Random": "./foreground/animation/mid/Turn Random.json"
+			}
+		}
+	},
+	"midground": {
+		"animation": {
+			"mid": {
+				"Block Spam::Big": "./midground/animation/mid/Block Spam_Big.json"
+			}
+		}
+	},
+	"overlay": {
+		"animation": {
+			"mid": {
+				"Block Spam::Small": "./overlay/animation/mid/Block Spam_Small.json",
+				"Dot Spam": "./overlay/animation/mid/Dot Spam.json"
+			}
+		}
+	},
+	"text": {
+		"animation": {
+			"in": {
+				"Alternate In": "./text/animation/in/Land In Random.json",
+				"Sonic In": "./text/animation/in/Sonic In.json",
+				"Squish In": "./text/animation/in/Squish In.json"
+			},
+			"mid": {
+				"Stop Motion Out & In": "./text/animation/mid/Stop Motion Out & In.json",
+				"Up & Down In & Out": "./text/animation/mid/Up & Down In & Out.json",
+				"Zoom In & Out": "./text/animation/mid/Zoom In & Out.json",
+				"Zoom Out & In": "./text/animation/mid/Zoom Out & In.json"
+			},
+			"out": {
+				"Flash Out": "./text/animation/out/Flash Out.json",
+				"Piece Out": "./text/animation/out/Piece Out.json"
+			}
+		},
+		"static": {
+			"font": {
+				"Montserrat": "./text/static/font/Montserrat.json",
+				"Space Mono": "./text/static/font/Space Mono.json"
+			}
+		}
+	},
+	"name": "default",
+	"version": "0"
+}

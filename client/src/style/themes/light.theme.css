@@ -1,0 +1,7 @@
+:root.theme\:light {
+	--colour-text-primary: #272829;
+	--colour-text-secondary: #5a5c5e;
+	--colour-background-primary: #ebf0f7;
+	--colour-background-secondary: #e1e6ed;
+	--filter-text-secondary: brightness(0) saturate(100%) invert(10%) sepia(1%) saturate(1910%) hue-rotate(169deg) brightness(101%) contrast(85%);
+}

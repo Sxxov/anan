@@ -1,0 +1,19 @@
+sstring {
+	display: block;
+
+	font-family: var(--font-family-2);
+	font-weight: 300;
+	font-variation-settings: var(--font-variation-light);
+	text-indent: 0;
+	font-size: 0.8rem;
+	line-height: 1.3em;
+	letter-spacing: -0.02em;
+	color: var(--colour-text-secondary);
+
+	margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	
+	word-break: break-word;
+}

@@ -1,0 +1,13 @@
+icon {
+	display: inline;
+
+	font-family: var(--font-family-ic-twotone);
+	font-variation-settings: var(--font-variation-regular);
+	text-indent: 0;
+	font-size: 1rem;
+	line-height: 1rem;
+	color: black;
+	filter: var(--filter-text-secondary);
+
+	user-select: none;
+}

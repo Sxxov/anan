@@ -1,0 +1,35 @@
+@charset 'utf-8';
+
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone');
+@import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+:root {
+	--font-family-1: 'Sen', 'DM Sans', 'Space Grotesk', sans-serif;
+	--font-family-2: 'Sen', 'DM Sans', 'Space Grotesk', sans-serif;
+	--font-family-ic-regular: 'Material Icons';
+	--font-family-ic-outline: 'Material Icons Outlined';
+	--font-family-ic-twotone: 'Material Icons Two Tone';
+	--font-variation-thin: 'wght' 100;
+	--font-variation-light-extra: 'wght' 200;
+	--font-variation-light: 'wght' 300;
+	--font-variation-regular: 'wght' 400;
+	--font-variation-medium: 'wght' 500;
+	--font-variation-bold-semi: 'wght' 600;
+	--font-variation-bold: 'wght' 700;
+	--font-variation-bold-extra: 'wght' 800;
+	--font-variation-black: 'wght' 900;
+}
+
+/* @font-face {
+	font-family: Uniform;
+	font-weight: 700;
+	font-style: normal;
+	src: url(../raw/fonts/Uniform-Bold.eot);
+	src: url(../raw/fonts/Uniform-Bold.otf) format("otf");
+	src: url(../raw/fonts/Uniform-Bold.ttf) format("ttf");
+	src: url(../raw/fonts/Uniform-Bold.woff) format("woff");
+} */
