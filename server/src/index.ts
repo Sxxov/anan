@@ -15,7 +15,7 @@ Ctx.topics = new Map();
 Ctx.signals = new Map();
 
 export const enum Constants {
-	PORT = 6969,
+	DEFAULT_PORT = 6969,
 	DISTRESS_RADIUS_DEG = 0.000001,
 }
 
@@ -27,4 +27,4 @@ app.use('/api/v1/ws', RouterWS);
 
 app.use('/api/v1/image', RouterImage);
 
-app.listen(Constants.PORT);
+app.listen(process.env.PORT ?? Constants.DEFAULT_PORT);
