@@ -6,7 +6,7 @@ import { Ctx } from './core/ctx.js';
 import { StoreArray } from '../../common/src/core/blocks/store/extended/array.js';
 import { getImageRouter } from './routers/image.js';
 import { getWSRouter } from './routers/ws.js';
-import { getVerifyRouter } from './routers/verify';
+import { getVerifyRouter } from './routers/verify.js';
 
 const { app } = expressWS(express());
 app.use(cors());
