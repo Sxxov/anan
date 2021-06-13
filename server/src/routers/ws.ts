@@ -76,10 +76,15 @@ export const getWSRouter = () => {
 			&& connectionItem.isInDistress === true
 			);
 
+			const isNowDistressed = (
+				messageConnectionItem.isInDistress === true
+				&& connectionItem.isInDistress === false
+			);
+
 			WalkUtility.mirror(messageConnectionItem, connectionItem);
 
 			if (isNoLongerDistressed
-			&& distressItem != null) {
+				&& distressItem != null) {
 			// Ctx.signals.forEach((distressItems) => {
 			// 	distressItems.splice(distressItems.indexOf(distressItem!), 1);
 			// });
@@ -91,6 +96,11 @@ export const getWSRouter = () => {
 			}
 
 			if (connectionItem.isInDistress) {
+				clearTimeout(distressTimeoutHandle!);
+				distressTimeoutHandle = setTimeout(clearDistressNotifiedConnections, 30000);
+			}
+
+			if (isNowDistressed) {
 				const connectionsToNotify = new Distresser(Ctx.connections).connectionsAround(connectionItem);
 
 				// console.log('$: connectionsToNotify:', connectionsToNotify);
@@ -116,9 +126,6 @@ export const getWSRouter = () => {
 
 					distressNotifiedConnections.push(connectionToNotify);
 				});
-
-				distressTimeoutHandle = setTimeout(clearDistressNotifiedConnections, 30000);
-
 				console.log('$: distressNotifiedConnections.length:', distressNotifiedConnections.length);
 
 				ws.send(String(new DistressSignalEmitSuccessWSResponse(
