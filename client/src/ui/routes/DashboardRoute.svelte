@@ -1,4 +1,8 @@
 <script lang='ts'>
+	import {
+		onDestroy, onMount,
+	} from 'svelte';
+
 	import { push } from 'svelte-spa-router';
 
 	import { writable } from 'svelte/store';
@@ -30,6 +34,8 @@
 	let currentPosition: GeolocationPosition;
 	let currentOrientation: number | null;
 	let callDialogContainer: HTMLDivElement;
+	let watchId: number;
+	let gpsTimeoutHandle: ReturnType<typeof setTimeout>;
 
 	if (!isDemoMode
 		&& Ctx.pingItem) {
@@ -39,61 +45,68 @@
 			}),
 			...Ctx.globalToasts,
 		];
-
-		setTimeout(() => {
-			if (!isLocationGotten) {
-				Ctx.globalToasts = [
-					ToastItem.from({
-						duration: 5000,
-						text: 'Hmm, I can\'t seem to get an accurate location... Is GPS on?',
-						level: Levels.WARN,
-					}),
-					...Ctx.globalToasts,
-				];
-			}
-		}, 10000);
-
-		navigator.geolocation.watchPosition(
-			(position) => {
-				currentPosition = position;
-
-				if (position.coords.accuracy == null
-					|| position.coords.accuracy > 100) {
-					return;
-				}
-
+	
+		onMount(() => {
+			gpsTimeoutHandle = setTimeout(() => {
 				if (!isLocationGotten) {
-					isLocationGotten = true;
-
 					Ctx.globalToasts = [
 						ToastItem.from({
-							text: 'Location locked in!',
-							level: Levels.OK,
+							duration: 5000,
+							text: 'Hmm, I can\'t seem to get an accurate location... Is GPS on?',
+							level: Levels.WARN,
 						}),
 						...Ctx.globalToasts,
 					];
 				}
+			}, 10000);
+	
+			watchId = navigator.geolocation.watchPosition(
+				(position) => {
+					currentPosition = position;
 
-				Ctx.pingItem.location ??= [0, 0];
-				Ctx.pingItem.location[0] = position.coords.latitude;
-				Ctx.pingItem.location[1] = position.coords.longitude;
-				Ctx.pingItem = Ctx.pingItem;
-			},
-			(err) => {
-				console.error(err);
-				Ctx.globalToasts = [
-					ToastItem.from({
-						duration: -1,
-						text: 'Error getting location. Check your browser\'s permissions.',
-						level: Levels.ERROR,
-					}),
-					...Ctx.globalToasts,
-				];
-			},
-			{
-				enableHighAccuracy: true,
-			},
-		);
+					if (position.coords.accuracy == null
+					|| position.coords.accuracy > 100) {
+						return;
+					}
+
+					if (!isLocationGotten) {
+						isLocationGotten = true;
+
+						Ctx.globalToasts = [
+							ToastItem.from({
+								text: 'Location locked in!',
+								level: Levels.OK,
+							}),
+							...Ctx.globalToasts,
+						];
+					}
+
+					Ctx.pingItem.location ??= [0, 0];
+					Ctx.pingItem.location[0] = position.coords.latitude;
+					Ctx.pingItem.location[1] = position.coords.longitude;
+					Ctx.pingItem = Ctx.pingItem;
+				},
+				(err) => {
+					console.error(err);
+					Ctx.globalToasts = [
+						ToastItem.from({
+							duration: -1,
+							text: 'Error getting location. Check your browser\'s permissions.',
+							level: Levels.ERROR,
+						}),
+						...Ctx.globalToasts,
+					];
+				},
+				{
+					enableHighAccuracy: true,
+				},
+			);
+		});
+
+		onDestroy(() => {
+			navigator.geolocation.clearWatch(watchId);
+			clearTimeout(gpsTimeoutHandle);
+		});
 	}
 </script>
 
