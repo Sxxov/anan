@@ -214,6 +214,7 @@ module.exports = {
 				factory: 'always',
 				factories: 'always',
 				item: 'always',
+				enum: 'always',
 			},
 		],
 		'no-await-in-loop': ['off'],

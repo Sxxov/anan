@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "firebase": "^9.0.0-beta.2",
     "lottie-web": "^5.7.11",
     "mixmix": "^2.1.0",
     "siema": "^1.5.1",
@@ -37,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "builtin-modules": "^3.2.0",
+    "core-js": "^3.14.0",
     "cssnano": "^5.0.5",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
