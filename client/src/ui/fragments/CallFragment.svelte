@@ -149,8 +149,8 @@
 				height={72}
 			/>
 			<Contact 
-				contact='brother'
-				content='the car/bike you gave him to fix'
+				contact={Ctx.topic.contact}
+				content={Ctx.topic.content}
 			/>
 		</container>
 		<container
