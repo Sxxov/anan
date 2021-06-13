@@ -25,12 +25,18 @@
 		Ctx.pingItem = Ctx.pingItem;
 	}
 
-	function onDeviceOrientation(event: DeviceOrientationEvent) {
-		orientation = event.gamma ?? 0;
+	function onReject() {
+		document.exitFullscreen().catch(() => {});
+
+		Ctx.pingItem.isInDistress = false;
+		Ctx.pingItem.compass = null;
+		Ctx.pingItem = Ctx.pingItem;
+
+		dialog.dismiss();
 	}
 
-	function exitFullScreen() {
-		document.exitFullscreen().catch(() => {});
+	function onDeviceOrientation(event: DeviceOrientationEvent) {
+		orientation = event.alpha ?? 0;
 	}
 </script>
 
@@ -44,7 +50,7 @@
 >
 	<CallFragment
 		on:answer={onAnswer}
-		on:reject={() => (exitFullScreen(), dialog.dismiss())}
+		on:reject={onReject}
 	/>
 </Dialog>
 
