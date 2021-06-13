@@ -47,6 +47,10 @@ export const getWSRouter = () => {
 		ws.send(String(new ConnectionTopicWSResponse(topic)));
 
 		ws.on('message', (message) => {
+			console.log('$: message:', message);
+			console.log('$: connection:', connectionItem);
+			console.log('$: connections:', Ctx.connections.value);
+
 			let messageConnectionItem: PingItem;
 
 			try {
@@ -110,6 +114,8 @@ export const getWSRouter = () => {
 				});
 
 				distressTimeoutHandle = setTimeout(clearDistressNotifiedConnections, 30000);
+
+				console.log('$: distressNotifiedConnections.length:', distressNotifiedConnections.length);
 
 				ws.send(String(new DistressSignalEmitSuccessWSResponse(
 					distressNotifiedConnections.length,
