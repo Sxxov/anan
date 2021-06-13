@@ -10,7 +10,7 @@
 
 	/* @compat */
 	--padding: calc(32px + 4%);
-	--padding: min(12%, 140px);
+	--padding: min(12%, 80px);
 	--roundness: 28px;
 
 	--font-size-big: min(25vw, 16rem);
@@ -34,11 +34,7 @@ body {
 	margin: 0;
 }
 
-* {
-	user-select: none;
-}
-
 ::selection {
-	color: var(--colour-body-primary);
-	background: var(--colour-accent-primary);
+	color: var(--colour-text-primary);
+	background: var(--colour-accent-secondary);
 }

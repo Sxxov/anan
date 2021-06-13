@@ -23,10 +23,6 @@
 	import Fragment from '../blocks/Fragment.svelte';
 	import Dialog from '../blocks/Dialog.svelte';
 	import Gradient2 from '../components/Gradient2.svelte';
-	import {
-		ToastItem,
-		Levels,
-	} from '../blocks/Toast.svelte';
 
 	let name = '';
 	let input: any;
@@ -45,13 +41,13 @@
 		},
 	};
 
-	Ctx.globalToasts = [
-		ToastItem.from({
-			duration: 100000,
-			text: 'yo! just a reminder issa preview, not everything works yet (:',
-			level: Levels.INFO,
-		} as ToastItem),
-	];
+	// Ctx.globalToasts = [
+	// 	ToastItem.from({
+	// 		duration: 100000,
+	// 		text: 'yo! just a reminder issa preview, not everything works yet (:',
+	// 		level: Levels.INFO,
+	// 	} as ToastItem),
+	// ];
 
 	const customizeDialogIsActiveW = writable(false);
 </script>

@@ -2,7 +2,7 @@ quote {
 	text-align: center;
 	position: relative;
 	z-index: 1;
-	color: var(--colour-background-primary);
+	color: var(--colour-text-primary);
 	display: block;
 }
 
@@ -12,7 +12,7 @@ quote::before {
 	display: flex;
 	height: 100px;
 	font-size: 8rem;
-	background: var(--colour-text-primary);
+	background: var(--colour-background-secondary);
 	padding: 0 var(--padding);
 
 	color: transparent;
@@ -20,15 +20,19 @@ quote::before {
 }
 
 quote::after {
-	margin-top: -1rem;
+	margin-top: -30px;
 	content: '”';
 	justify-content: flex-end;
 	align-items: center;
+
+	border-radius: 0 0 50px 50px;
 }
 
 quote::before {
-	margin-bottom: -1rem;
+	margin-bottom: -30px;
 	content: '“';
 	justify-content: flex-start;
 	align-items: flex-end;
+
+	border-radius: 50px 50px 0 0;
 }

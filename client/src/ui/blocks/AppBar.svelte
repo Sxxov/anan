@@ -26,7 +26,7 @@
 	export let contentPaddingW = writable(contentPadding);
 	export let isInAnimated = false;
 	export let isOutAnimated = false;
-	export let backgroundColour: CSS = 'transparent';
+	export let backgroundColour: CSS = '--colour-background-secondary';
 	export let isSpaced = true;
 	export let isSpacedW = writable(isSpaced);
 	export let titleCase:
@@ -195,7 +195,7 @@
 	}
 
 	heading {
-		font-size: 1.5rem;
+		font-size: 3rem;
 		line-height: 3rem;
 		/* white-space: nowrap; */
 	}

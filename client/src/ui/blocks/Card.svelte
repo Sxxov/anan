@@ -12,6 +12,7 @@
 	export let roundness = '--roundness';
 
 	export let isFloatingInverted = false;
+	export let isOverflowHidden = false;
 	
 	export let height = 'auto';
 	export let width = 'auto';
@@ -36,6 +37,7 @@
 		--box-shadow: {isFloatingInverted ? 'var(--shadow)' : 'var(--shadow-inactive)'};
 		--active-box-shadow: {isFloatingInverted ? 'var(--shadow-inactive)' : 'var(--shadow)'};
 		--card-roundness: {CSSUtility.parse(roundness)};
+		--overflow: {isOverflowHidden ? 'hidden' : 'unset'};
 	'
 >
 	<Scene
@@ -56,6 +58,7 @@
 		width: var(--width);
 
 		border-radius: var(--card-roundness);
+		overflow: var(--overflow);
 
 		box-shadow: var(--box-shadow);
 

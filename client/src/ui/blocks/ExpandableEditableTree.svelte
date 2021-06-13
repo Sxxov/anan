@@ -104,7 +104,6 @@
 					if (detail === '') {
 						Ctx.globalToasts = [
 							...Ctx.globalToasts ?? [],
-							// @ts-expect-error
 							ToastItem.from({
 								text: 'no value provided',
 								level: Levels.WARN,

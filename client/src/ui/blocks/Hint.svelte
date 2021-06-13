@@ -1,31 +1,10 @@
-<script lang='ts' context="module">
-	export enum Levels {
-		INFO,
-		WARN,
-		ERROR,
-		OK,
-		NONE,
-	}
-
-	export enum LevelIcons {
-		'error_outline',
-		'warning',
-		'error',
-		'done',
-	}
-
-	export enum LevelColours {
-		'--colour-text-primary',
-		'--colour-warn-primary',
-		'--colour-error-primary',
-		'--colour-ok-primary',
-	}
-</script>
-
 <script lang='ts'>
 	import { writable } from 'svelte/store';
 	import { CSSUtility } from '../../resources/utilities';
 	import type { CSS } from '../../resources/utilities';
+	import {
+		LevelColours, LevelIcons, Levels,
+	} from '../../core/enums/level.enum';
 
 	export let level: Levels = Levels.INFO;
 	export let levelW = writable<Levels>(level);
@@ -45,9 +24,9 @@
 		'
 	>
 		{#if LevelIcons[$levelW] != null}
-			<icon>
+			<icono>
 				{LevelIcons[$levelW]}
-			</icon>
+			</icono>
 		{/if}
 		<string class='text'>
 			<slot>Hint</slot>

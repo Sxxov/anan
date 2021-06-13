@@ -6,15 +6,40 @@
 </script>
 
 <script lang='ts'>
+	import { writable } from 'svelte/store';
+
+	import { Breakpointer } from '../../core/breakpointer';
+
 	import { RandomUtility } from '../../resources/utilities';
 	import FillOrTwoToneButton from '../blocks/buttons/FillOrTwoToneButton.svelte';
 	import Card from '../blocks/Card.svelte';
 	import Fragment from '../blocks/Fragment.svelte';
+	import Image from '../blocks/Image.svelte';
+	import Spacer from '../blocks/Spacer.svelte';
 
 	export let profilePicPlaceholder = RandomUtility.value(Emojis);
 	export let userDisplayName = RandomUtility.value(DisplayNames);
 	export let userName = userDisplayName.toLowerCase().replace(/[^\w]/g, '_');
 	export let timestamp = `${Math.min(RandomUtility.int(2), 48)}${RandomUtility.string(1, 'hm')}`;
+	export let imageSrc: string | Promise<string> | null = null;
+	export let imageAlt = 'Post image';
+	export let content = 'This is awkward. If you see this it means I fucked up somewhere. Report the bug to the police, thanks.';
+
+	const b400W = Breakpointer.Stores[400];
+	const b500W = Breakpointer.Stores[500];
+	const b600W = Breakpointer.Stores[600];
+	const iconWidthW = writable('');
+	const paddingW = writable('');
+
+	$: $b600W.matches
+		? $iconWidthW = 'calc(var(--icon-size) * 1.5)'
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		: $iconWidthW = 'calc(var(--icon-size) * 2.5)';
+
+	$: $b500W.matches
+		? $paddingW = '16px'
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		: $paddingW = '16px max(var(--border-radius), 24px)';
 </script>
 
 <Fragment
@@ -58,16 +83,34 @@
 			class='content'
 		>
 			<string>
-				<slot></slot>
+				<slot>
+					{content}
+				</slot>
 			</string>
 			{#if $$slots.rich}
+				<Spacer
+					height={8}
+				/>
 				<Card
 					width='100%'
 					height='200px'
+					isPadded={false}
+					isOverflowHidden={true}
 				>
 					<slot
 						name='rich'
-					></slot>
+					>
+						{#if imageSrc != null}
+							<container
+								class='rich'
+							>
+								<Image
+									src={imageSrc}
+									alt={imageAlt}
+								/>
+							</container>
+						{/if}
+					</slot>
 				</Card>
 			{/if}
 		</container>
@@ -88,6 +131,8 @@
 					hoverTwoToneFilter='brightness(0) saturate(100%) invert(61%) sepia(33%) saturate(7490%) hue-rotate(177deg) brightness(101%) contrast(90%)'
 					icon='icecream'
 					iconSize='1rem'
+					{iconWidthW}
+					{paddingW}
 				>
 					<string>
 						{RandomUtility.int(2)}
@@ -108,6 +153,8 @@
 					hoverTwoToneFilter='brightness(0) saturate(100%) invert(52%) sepia(57%) saturate(796%) hue-rotate(98deg) brightness(101%) contrast(82%)'
 					icon='wine_bar'
 					iconSize='1rem'
+					{iconWidthW}
+					{paddingW}
 				>
 					<string>
 						{RandomUtility.int(2)}
@@ -127,29 +174,35 @@
 					hoverFillColour='--colour-fill-hover-primary'
 					icon='dinner_dining'
 					iconSize='1rem'
+					{iconWidthW}
+					{paddingW}
 				>
 					<string>
 						{RandomUtility.int(3)}
 					</string>
 				</FillOrTwoToneButton>
 			</container>
-			<container
-				class='report'
-				style='
-					--colour-fill-hover-primary: var(--colour-warn-primary);
-					--colour-fill-hover-secondary: var(--colour-warn-secondary);
-				'
-			>
-				<FillOrTwoToneButton
-					backgroundColour='transparent'
-					hoverColour='--colour-fill-hover-secondary'
-					hoverFillColour='--colour-fill-hover-primary'
-					hoverTwoToneFilter='brightness(0) saturate(100%) invert(67%) sepia(59%) saturate(635%) hue-rotate(331deg) brightness(101%) contrast(104%)'
-					icon='report_problem'
-					iconSize='1rem'
+			{#if !$b400W.matches}
+				<container
+					class='report'
+					style='
+						--colour-fill-hover-primary: var(--colour-warn-primary);
+						--colour-fill-hover-secondary: var(--colour-warn-secondary);
+					'
 				>
-				</FillOrTwoToneButton>
-			</container>
+					<FillOrTwoToneButton
+						backgroundColour='transparent'
+						hoverColour='--colour-fill-hover-secondary'
+						hoverFillColour='--colour-fill-hover-primary'
+						hoverTwoToneFilter='brightness(0) saturate(100%) invert(67%) sepia(59%) saturate(635%) hue-rotate(331deg) brightness(101%) contrast(104%)'
+						icon='report_problem'
+						iconSize='1rem'
+						{iconWidthW}
+						{paddingW}
+					>
+					</FillOrTwoToneButton>
+				</container>
+			{/if}
 		</container>
 	</component>
 </Fragment>
@@ -217,7 +270,7 @@
 	}
 
 	.content > string {
-		margin: 0;
+		margin: 8px 0;
 	}
 
 	.actions {
@@ -226,7 +279,7 @@
 		display: grid;
 		grid-template-areas: 
 			"reply retweet like report";
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(3, 1fr) auto;
 		grid-template-rows: 1fr;
 		justify-items: flex-start;
 		align-items: center;
@@ -238,8 +291,12 @@
 	.actions > .report:hover * {
 		color: var(--colour-fill-hover-primary);
 	}
-
 	.actions string {
 		margin: 0;
+	}
+
+	container.rich {
+		width: 100%;
+		height: 100%;
 	}
 </style>

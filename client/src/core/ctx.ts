@@ -1,6 +1,9 @@
 import StackTrace from 'stacktrace-js';
 import { UnexpectedValueError } from '../../../common/src/resources/errors';
 import { Store } from '../../../common/src/core/blocks/store';
+import type { DistressItem } from '../../../common/src/core/items/distress.item';
+import type { TopicItem } from '../../../common/src/core/items/topic.item';
+import type { PingItem } from '../../../common/src/core/items/ping.item';
 
 const _: any = undefined;
 
@@ -12,6 +15,11 @@ export class Contexts {
 	static globalAppBar: any = _;
 	static globalHamburger: Record<string, () => void> = _;
 	static globalToasts: any[] = _;
+	static globalSocket: WebSocket = _;
+	static signals: DistressItem[] = _;
+	static topic: TopicItem = _;
+	static isInDistress: boolean = _;
+	static pingItem: PingItem = _;
 	static isRouting: boolean = _;
 	static isSceneOutAnimationRunning: boolean = _;
 	static isSceneInAnimationRunning: boolean = _;
@@ -25,7 +33,7 @@ type KeyType = keyof typeof Contexts | string | number;
 export class Ctx extends Contexts {
 	public static BROADCAST_KEY: '*' = '*';
 	public static items: Record<KeyType, Store<any>> = {};
-	public static s: Record<Exclude<keyof typeof Contexts, 'prototype'>, any> = {} as any;
+	public static s: Record<Exclude<keyof typeof Contexts, 'prototype'>, Store<any>> = {} as any;
 
 	public static getStore<T>(key?: KeyType): Store<T> {
 		key ??= this.getCaller();

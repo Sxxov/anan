@@ -26,7 +26,7 @@
 
 	export let roundness: CSS = 0;
 
-	export let placeholderColour = '--colour-accent-primary';
+	export let placeholderColour = '--colour-accent-secondary';
 	let realSrc = '';
 
 	(async () => {

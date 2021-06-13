@@ -1,5 +1,6 @@
 <script lang='ts'>
 	import {
+		createEventDispatcher,
 		onDestroy,
 		onMount,
 	} from 'svelte';
@@ -11,30 +12,38 @@
 	import Fragment from '../blocks/Fragment.svelte';
 	import Dialog from '../blocks/Dialog.svelte';
 	import Gradient2 from '../components/Gradient2.svelte';
-	import {
-		ToastItem,
-		Levels,
-	} from '../blocks/Toast.svelte';
 	import AppBarFragment from '../blocks/fragments/AppBarFragment.svelte';
 	import ClosableAppBar from '../blocks/appBars/ClosableAppBar.svelte';
 	import ExpandingButton from '../components/ExpandingButton.svelte';
+	import Spacer from '../blocks/Spacer.svelte';
 	import Contact from '../components/Contact.svelte';
+	import {
+		dropIn,
+		dropOut,
+	} from '../../core/transitioner';
 
-	let time = getTime();
-	let timeInterval: ReturnType<typeof setInterval>;
+	const dispatch = createEventDispatcher();
+
+	export let isAnswered = false;
+	export let isAnsweredW = writable(isAnswered);
+
+	let timerHandle: ReturnType<typeof setInterval> | null;
+	let timerSeconds = 0;
+	let clock = getTime();
+	let clockHandle: ReturnType<typeof setInterval>;
 
 	onMount(async () => {
 		const date = new Date();
 
 		await new Promise((resolve) => setTimeout(resolve, 60 - date.getSeconds()));
 
-		timeInterval = setInterval(() => {
-			time = getTime();
+		clockHandle = setInterval(() => {
+			clock = getTime();
 		}, 60000);
 	});
 
 	onDestroy(() => {
-		clearInterval(timeInterval);
+		clearInterval(clockHandle);
 	});
 
 	function getTime() {
@@ -46,42 +55,42 @@
 			String(date.getMinutes()).padStart(2, '0')
 		}`;
 	}
+
+	$: $isAnsweredW
+		? startTimer()
+		: stopTimer();
+
+	$: timer = `${
+		String(Math.floor(timerSeconds / 60)).padStart(2, '0')
+	}:${
+		String(timerSeconds).padStart(2, '0')
+	}`;
+	
+	onDestroy(() => {
+		stopTimer();
+	});
+
+	function stopTimer() {
+		clearInterval(timerHandle!);
+		timerSeconds = 0;
+		timerHandle = null;
+	}
+
+	function startTimer() {
+		timerHandle ??= setInterval(() => ++timerSeconds, 1000);
+	}
 </script>
 
-<container
-	class='status'
->
-	<container
-		class='time'
-	>
-		<string>
-			{time}
-		</string>
-	</container>
-	<icon>
-		fmd_good
-	</icon>
-	&nbsp;
-	<icon>
-		network_wifi
-	</icon>
-	&nbsp;
-	<icon>
-		signal_cellular_alt
-	</icon>
-	&nbsp;
-	<icon>
-		battery_full
-	</icon>
-</container>
+
 <Fragment
 	isPadded={false}
 	isInAnimated={true}
 	isOutAnimated={true}
-	height='calc(100vh - 4rem)'
+	height='100vh'
 	width='100vw'
-	align='flex-end'
+	align='center'
 	justify='center'
+	rows='min-content 1fr'
 >
 	<!-- <container 
 		slot='appBar'
@@ -91,6 +100,33 @@
 			isSpaced={false}
 		/>
 	</container> -->
+
+	<container
+		class='status'
+	>
+		<container
+			class='time'
+		>
+			<string>
+				{clock}
+			</string>
+		</container>
+		<icon>
+			fmd_good
+		</icon>
+		&nbsp;
+		<icon>
+			network_wifi
+		</icon>
+		&nbsp;
+		<icon>
+			signal_cellular_alt
+		</icon>
+		&nbsp;
+		<icon>
+			battery_full
+		</icon>
+	</container>
 
 	<container class='gradient'>
 		<Gradient2 />
@@ -102,6 +138,16 @@
 		<container
 			class='contact'
 		>
+			<string>
+				{#if $isAnsweredW}
+					{timer}
+				{:else}
+					Incoming call
+				{/if}
+			</string>
+			<Spacer
+				height={72}
+			/>
 			<Contact 
 				contact='brother'
 				content='the car/bike you gave him to fix'
@@ -113,34 +159,48 @@
 
 		</container>
 		<container
-			class='answer'
+			class='actions'
+			class:answered={$isAnsweredW}
 		>
-			<ExpandingButton
-				isBlinkerEnabled={true}
-				isArrowEnabled={true}
-				backgroundColour='radial-gradient(circle, #0000 0%, var(--colour-ok-primary) 100%)'
-				buttonColour='--colour-ok-primary'
-				hoverColour='--colour-ok-secondary'
-				icon='call'
-				iconSize='2em'
-				size={72}
-				on:trigger={() => {console.log('accept')}}
-			/>
-		</container>
-		<container
-			class='reject'
-		>
-			<ExpandingButton
-				isBlinkerEnabled={false}
-				isArrowEnabled={false}
-				backgroundColour='radial-gradient(circle, #0000 0%, var(--colour-error-primary) 100%)'
-				buttonColour='--colour-error-primary'
-				hoverColour='--colour-error-secondary'
-				icon='call_end'
-				iconSize='2em'
-				size={72}
-				on:trigger={() => {console.log('decline')}}
-			/>
+			{#if !$isAnsweredW}
+				<container
+					class='answer'
+					in:dropIn
+				>
+					<ExpandingButton
+						isBlinkerEnabled={true}
+						isArrowEnabled={true}
+						backgroundColour='radial-gradient(circle, #0000 0%, var(--colour-ok-primary) 100%)'
+						buttonColour='--colour-ok-primary'
+						hoverColour='--colour-ok-secondary'
+						icon='call'
+						iconSize='2em'
+						size={72}
+						on:click={() => (dispatch('answer', 'click'), $isAnsweredW = true)}
+						on:trigger={() => (dispatch('answer', 'trigger'), $isAnsweredW = true)}
+					/>
+				</container>
+			{/if}
+			{#key $isAnsweredW}
+				<container
+					class='reject'
+					in:dropIn
+					_={$isAnsweredW}
+				>
+					<ExpandingButton
+						isBlinkerEnabled={false}
+						isArrowEnabled={false}
+						backgroundColour='radial-gradient(circle, #0000 0%, var(--colour-error-primary) 100%)'
+						buttonColour='--colour-error-primary'
+						hoverColour='--colour-error-secondary'
+						icon='call_end'
+						iconSize='2em'
+						size={72}
+						on:click={() => (dispatch('reject', 'click'))}
+						on:trigger={() => (dispatch('reject', 'trigger'))}
+					/>
+				</container>
+			{/key}
 		</container>
 	</container>
 </Fragment>
@@ -162,17 +222,37 @@
 		width: 100%;
 		display: grid;
 
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 1fr;
 		grid-template-rows: min-content 56px auto;
 		grid-template-areas: 
-			"contact contact"
-			"mid mid"
-			"answer reject";
+			"contact"
+			"mid"
+			"actions";
 
 		align-items: center;
 		justify-items: center;
 
 		z-index: 1;
+	}
+
+	container.actions {
+		display: grid;
+		width: 100%;
+
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: auto;
+		grid-template-areas: 
+			"answer reject";
+
+		align-items: center;
+		justify-items: center;
+	}
+
+	container.actions.answered {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+		grid-template-areas: 
+			"reject";
 	}
 
 	container.answer {
@@ -199,12 +279,18 @@
 
 	container.contact {
 		grid-area: contact;
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
 	container.mid {
 		grid-area: mid;
 	}
 
+		
 	container.status {
 		width: 100%;
 		height: 4rem;

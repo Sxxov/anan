@@ -27,12 +27,6 @@
 	<container
 		class='text wrapper'
 	>
-		<string>
-			Incoming call
-		</string>
-		<Spacer
-			height={72}
-		/>
 		<heading>
 			{CaseUtility.title(contact)}.
 		</heading>

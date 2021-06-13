@@ -19,6 +19,9 @@
 		'/incompatible',
 		'/call',
 		'/dashboard',
+		'/authenticate',
+		'/verify',
+		'/walkthrough',
 		'/*',
 	];
 	const RouteDestinations = {
@@ -27,10 +30,19 @@
 			asyncComponent: () => import('./ui/routes/errors/IncompatibleRoute.svelte'),
 		}),
 		[Paths[2]]: wrap({
-			asyncComponent: () => import('./ui/routes/CallRoute.svelte'),
+			asyncComponent: () => import('./ui/components/CallDialog.svelte'),
 		}),
 		[Paths[3]]: wrap({
 			asyncComponent: () => import('./ui/routes/DashboardRoute.svelte'),
+		}),
+		[Paths[4]]: wrap({
+			asyncComponent: () => import('./ui/routes/AuthenticateRoute.svelte'),
+		}),
+		[Paths[5]]: wrap({
+			asyncComponent: () => import('./ui/routes/VerifyRoute.svelte'),
+		}),
+		[Paths[6]]: wrap({
+			asyncComponent: () => import('./ui/routes/WalkthroughRoute.svelte'),
 		}),
 
 		[Paths[Paths.length - 1]]: NotFoundScene,

@@ -18,6 +18,10 @@
 	export let hoverTwoToneFilter = '--filter-accent-primary';
 	export let backgroundHoverColour = '--colour-accent-secondary';
 	export let isHoveredW = writable(false);
+	export let isIconOnly = false;
+	export let isIconOnlyW = writable(isIconOnly);
+	export let iconWidth: CSS = 'calc(var(--icon-size) * 2.5)';
+	export let iconWidthW = writable(iconWidth);
 
 	const dispatch = createEventDispatcher();
 
@@ -45,7 +49,7 @@
 >
 	<container
 		style='
-			--icon-width: {$$slots.default ? 'calc(var(--icon-size) * 2.5)' : 'auto'};
+			--icon-width: {$$slots.default && !$isIconOnlyW ? $iconWidthW : 'auto'};
 		'
 	>
 		{#if $isTwoToneW} 

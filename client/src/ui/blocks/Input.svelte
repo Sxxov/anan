@@ -12,6 +12,7 @@
 	import Button from './Button.svelte';
 	import Hint from './Hint.svelte';
 	import { Shadow } from '../../core/shadow';
+	import type { Levels } from '../../core/enums/level.enum';
 
 	// @export
 	export let value = '';
@@ -37,8 +38,10 @@
 	export let label = 'Input';
 	export let buttonComponent: typeof Button | null = Button;
 	export let buttonProps = {};
-	export let hintLevelW = writable(0);
-	export let hintW = writable(null);
+	export let hintLevel: Levels = 0;
+	export let hintLevelW = writable(hintLevel);
+	export let hint = '';
+	export let hintW = writable(hint);
 	export let depth = 3;
 	export let roundness: CSS = 'var(--roundness)';
 	export let height: CSS = 56;
@@ -162,7 +165,7 @@
 			{/if}
 		</slot>
 	</form>
-	{#if $hintW !== null}
+	{#if $hintW}
 		<Hint levelW={hintLevelW}>{$hintW}</Hint>
 	{/if}
 </component>
@@ -256,6 +259,21 @@
 		font-size: var(--label-font-size);
 		color: var(--colour-label);
 		display: inline;
+	}
+
+	label > string::after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: -1em;
+		left: -1.25em;
+		width: 100%;
+		height: 1em;
+		padding: 1em 1.5em;
+		background: var(--colour-background-primary);
+		z-index: -1;
+		opacity: 0.5;
+		border-radius: 100px;
 	}
 
 	input.text:focus ~ label,

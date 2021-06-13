@@ -1,27 +1,14 @@
-<script context='module' lang='ts'>
-	/* eslint-disable import/no-duplicates */
-	import { Item } from '../../../../common/src/core/blocks/item';
-	import { Levels } from './Hint.svelte';
-
-	export class ToastItem extends Item {
-		uid = String(Date.now());
-		text = '';
-		level: Levels = Levels.INFO;
-		duration = 2000;
-	}
-
-	export { Levels };
-</script>
-
 <script lang='ts'>
 	import { writable } from 'svelte/store';
 	import { CSSUtility } from '../../resources/utilities';
-	import Hint, { LevelColours } from './Hint.svelte';
+	import Hint from './Hint.svelte';
 	import {
 		dropIn,
 		dropOut,
 	} from '../../core/transitioner';
 	import Button from './Button.svelte';
+	import type { ToastItem } from '../../core/items/toast.item';
+	import { LevelColours } from '../../core/enums/level.enum';
 
 	export let toasts: ToastItem[] = [];
 	export let toastsW = writable(toasts);
@@ -33,7 +20,7 @@
 	}
 
 	$: (
-		$toastsW.forEach((toast) => scheduleDismiss(toast.uid, toast.duration!))
+		$toastsW.forEach((toast) => scheduleDismiss(toast.uid!, toast.duration!))
 	);
 
 	function dismiss(uid: string) {
@@ -51,39 +38,53 @@
 			return;
 		}
 
+		if (duration < 0) {
+			return;
+		}
+
 		setTimeout(() => dismiss(uid), duration);
 
 		scheduledUIDs.push(uid);
 	}
 </script>
 
-<component>
-	{#each $toastsW as toast}
-		<container
-			style='
-				--colour-toast: {CSSUtility.parse(LevelColours[toast.level])}
-			'
-			in:dropIn
-			out:dropOut
-		>
-			<Hint
-				level={toast.level}
-				overrideColour='--colour-background-primary'
+{#if $toastsW.length !== 0}
+	<component>
+		{#each $toastsW as toast}
+			<container
+				style='
+					--colour-toast: {
+						// @ts-expect-error
+						CSSUtility.parse(LevelColours[toast.level])
+					}
+				'
+				in:dropIn
+				out:dropOut
 			>
-				{toast.text}
-			</Hint>
-			<Button 
-				icon='clear'
-				backgroundColour='transparent'
-				textColour='--colour-background-primary'
-				hoverColour='#fff2'
-				padding='4px 8px'
-				height={32}
-				on:click={() => dismiss(toast.uid)}
-			/>
-		</container>
-	{/each}
-</component>
+				<Hint
+					level={toast.level}
+					overrideColour='--colour-background-primary'
+				>
+					{toast.text}
+				</Hint>
+				<Button 
+					icon='clear'
+					backgroundColour='transparent'
+					textColour='--colour-background-primary'
+					hoverColour='#fff2'
+					padding='4px 8px'
+					height={32}
+					on:click={
+						() => dismiss(
+							// @ts-expect-error
+							toast.uid
+						)
+					}
+				/>
+			</container>
+		{/each}
+	</component>
+{/if}
 
 <style>
 	component {

@@ -2,6 +2,7 @@
 	import { writable } from 'svelte/store';
 	import { Shadow } from '../../core/shadow';
 	import { CSSUtility } from '../../resources/utilities';
+	import type { CSS } from '../../resources/utilities';
 	import {
 		fade,
 		dropIn,
@@ -12,10 +13,12 @@
 	export let isDismissingOnBlur = false;
 	export let isActive = true;
 	export let isActiveW = writable(isActive);
-	export let roundness = '--roundness';
-	export let maxHeight = 'calc(100vh - var(--padding))';
+	export let roundness: CSS = '--roundness';
+	export let maxHeight: CSS = 'calc(100vh - var(--padding))';
 	export function dismiss(): void {
-		onBlur();
+		isActiveW.set(false);
+
+		console.log($isActiveW);
 	}
 	export let onBlur = (): void => {
 		if (isDismissingOnBlur) {

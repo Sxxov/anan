@@ -22,6 +22,7 @@
 	export let isText = true;
 	export let textAlign: CSS = 'center';
 	export let padding: CSS = '16px max(var(--border-radius), 24px)';
+	export let paddingW = writable(padding);
 	export let isFocusedW = writable(false);
 	export let isDisabled = false;
 	export let isDisabledW = writable(isDisabled);
@@ -168,7 +169,7 @@
 			--colour-hover: {CSSUtility.parse($isAnimatedW ? hoverColour : backgroundColour)};
 			--colour-ripple: {CSSUtility.parse(rippleColour)};
 			--colour-text: {CSSUtility.parse($isTextInvertedAgainstBackgroundW ? 'white' : textColour)};
-			--button-padding: {CSSUtility.parse(padding)};
+			--button-padding: {CSSUtility.parse($paddingW)};
 			--icon-size: {CSSUtility.parse(iconSize)};
 			--text-align: {textAlign};
 			--transition: {$isAnimatedW ? '0.2s var(--ease-slow-slow)' : 'unset'};
