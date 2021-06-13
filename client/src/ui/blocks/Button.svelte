@@ -186,11 +186,12 @@
 	>
 		<span class='content'>
 			{#if isText}
-				<icon>
-					<slot name='icon'>
-						{icon ?? ''}
-					</slot>
-				</icon>
+				<slot name='icon'>
+					<icon>
+							{icon ?? ''}
+
+					</icon>
+				</slot>
 				<string>
 					<slot></slot>
 				</string>
