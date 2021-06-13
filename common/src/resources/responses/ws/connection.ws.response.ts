@@ -1,6 +1,5 @@
 import type { TopicItem } from '../../../core/items/topic.item.js';
 import { BaseResponse } from '../base.response.js';
-import mixmix from 'mixmix';
 
 export abstract class ConnectionSuccessWSResponse extends BaseResponse {}
 
