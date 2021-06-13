@@ -117,7 +117,7 @@ import ScrollableAppBar from '../blocks/appBars/ScrollableAppBar.svelte';
 
 		Ctx.globalToasts = [
 			ToastItem.from({
-				duration: -1,
+				duration: 3000,
 				text: 'Working...',
 			}),
 			...Ctx.globalToasts,
