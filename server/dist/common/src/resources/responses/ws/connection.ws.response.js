@@ -1,5 +1,4 @@
 import { BaseResponse } from '../base.response.js';
-import 'mixmix';
 export class ConnectionSuccessWSResponse extends BaseResponse {
 }
 export class ConnectionErrorWSResponse extends BaseResponse {
