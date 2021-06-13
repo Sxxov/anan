@@ -36,9 +36,9 @@ export const getWSRouter = () => {
         Ctx.signals.set(connectionItem, []);
         ws.send(String(new ConnectionTopicWSResponse(topic)));
         ws.on('message', (message) => {
-            console.log('$: message:', message);
-            console.log('$: connection:', connectionItem);
-            console.log('$: connections:', Ctx.connections.value);
+            // console.log('$: message:', message);
+            // console.log('$: connection:', connectionItem);
+            // console.log('$: connections:', Ctx.connections.value);
             let messageConnectionItem;
             try {
                 if (typeof message !== 'string') {
@@ -70,9 +70,9 @@ export const getWSRouter = () => {
             }
             if (connectionItem.isInDistress) {
                 const connectionsToNotify = new Distresser(Ctx.connections).connectionsAround(connectionItem);
-                console.log('$: connectionsToNotify:', connectionsToNotify);
-                console.log('$: Ctx.connections:', Ctx.connections);
-                console.log('$: connectionItem:', connectionItem);
+                // console.log('$: connectionsToNotify:', connectionsToNotify);
+                // console.log('$: Ctx.connections:', Ctx.connections);
+                // console.log('$: connectionItem:', connectionItem);
                 distressItem = DistressItem.from({
                     location: connectionItem.location,
                     topic: Ctx.topics.get(connectionItem),

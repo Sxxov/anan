@@ -28,11 +28,16 @@ export class Distresser {
         const verticesInRadius = intersecter
             .vertex(connection.location, 100 /* DISTRESS_RADIUS_M */)
             .build();
+        console.log('$: connection.location:', connection.location);
+        console.log('$: Constants.DISTRESS_RADIUS_M:', 100 /* DISTRESS_RADIUS_M */);
+        console.log('$: validVertices:', validVertices);
+        console.log('$: verticesInRadius:', verticesInRadius);
         const verticesInIgnoreZone = connection.compass
             ? intersecter
                 .polygon(Distresser.rectPolygonAlongAngle(0.001 /* DISTRESS_RADIUS_DEG */, connection.compass, 10))
                 .build()
             : [];
+        console.log('$: verticesInIgnoreZone:', verticesInIgnoreZone);
         const verticesToNotify = verticesInRadius.filter((connectionInRadius) => !verticesInIgnoreZone.includes(connectionInRadius));
         return verticesToNotify;
     }
