@@ -1,137 +1,151 @@
-<script lang='ts' context='module'>
-	const gradientRemountIndexW = writable(1);
-	let timeoutHandle: ReturnType<typeof setTimeout>;
-
-	export function scheduleGradientRemount(): void {
-		clearTimeout(timeoutHandle);
-	
-		timeoutHandle = setTimeout(() => {
-			gradientRemountIndexW.update(
-				(gradientRemountIndexWValue) => ++gradientRemountIndexWValue,
-			);
-		}, 1000);
-	}
-</script>
-
 <script lang='ts'>
 	import { onMount } from 'svelte';
+	import type { AnimationItem } from 'lottie-web';
 	import { writable } from 'svelte/store';
 	import { push } from 'svelte-spa-router';
 	import { Ctx } from '../../core/ctx';
 	import Button from '../blocks/Button.svelte';
 	import Input from '../blocks/Input.svelte';
 	import Fragment from '../blocks/Fragment.svelte';
+	import Lottie from '../blocks/Lottie.svelte';
 	import Dialog from '../blocks/Dialog.svelte';
 	import Gradient2 from '../components/Gradient2.svelte';
+	import AppBarFragment from '../blocks/fragments/AppBarFragment.svelte';
+	import ScrollableAppBar from '../blocks/appBars/ScrollableAppBar.svelte';
+	import {
+		dropIn, dropOut,
+	} from '../../core/transitioner';
+	import CallToAction from '../components/CallToAction.svelte';
+	import Spacer from '../blocks/Spacer.svelte';
+	import Footer from '../components/Footer.svelte';
 
-	let name = '';
-	let input: any;
+	let animationCurrentFrameW = writable(0);
+	let animation: AnimationItem;
+	let lottieContainerDomContent: HTMLDivElement;
 
-	onMount(() => {
-		input.focus();
-	});
+	let scrollY = 0;
 
-	function onSubmit() {
+	$: onScroll(scrollY);
+
+	function onScroll(y: number) {
+		if (!lottieContainerDomContent) {
+			return;
+		}
+
+		const { top } = lottieContainerDomContent.getBoundingClientRect();
+
+		const currentFrame = Math.max(
+			animation?.totalFrames
+			- (
+				y / 8
+				// - top
+			),
+			-1,
+		);
 	
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		$animationCurrentFrameW = Math.max(y - 10, 0);
 	}
-
-	Ctx.globalHamburger = {
-		'report bug': () => {
-			document.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd9Rgu6Wur1LbGHS8ce9hTRJLy06MrbOIrfvghNlvHJ6bOlhA/viewform?usp=sf_link';
-		},
-	};
-
-	// Ctx.globalToasts = [
-	// 	ToastItem.from({
-	// 		duration: 100000,
-	// 		text: 'yo! just a reminder issa preview, not everything works yet (:',
-	// 		level: Levels.INFO,
-	// 	} as ToastItem),
-	// ];
-
-	const customizeDialogIsActiveW = writable(false);
 </script>
 
-<Fragment
-	isPadded={true}
+<svelte:window bind:scrollY />
+
+<AppBarFragment
+	isPadded={false}
 	isInAnimated={true}
 	isOutAnimated={true}
 	height='100vh'
 	width='100%'
-	align='flex-end'
+	align='center'
 	justify='center'
+	rows='auto'
 >
-	{#key $gradientRemountIndexW}
-		<container
-			class='gradient'
-			_={$gradientRemountIndexW}
+	<container
+		slot='appBar'
+	>
+		<ScrollableAppBar
+			backgroundColour='transparent'
 		>
-			<Gradient2 />
-		</container>
-	{/key}
+			<Button
+				backgroundColour='--colour-accent-secondary'
+				textColour='--colour-accent-primary'
+				hoverColour='#fff3'
+				on:click={() => push('/dashboard')}
+			>
+				<iconf
+					style='color: var(--colour-accent-primary)'
+					slot='icon'
+				>
+					exit_to_app
+				</iconf>
+				Launch app
+			</Button>
+		</ScrollableAppBar>
+	</container>
+
+	<container 
+		class='lottie'
+		bind:this={lottieContainerDomContent}
+	>
+		<Lottie 
+			bind:animationCurrentFrameW
+			bind:animation
+			overrideColour='--colour-text-primary'
+			animationData={import('../../raw/lottie/blocks.json')}
+			options={{
+
+			}}
+		/>
+	</container>
 
 	<container
-		class='content'
+		class='boo'
+		in:dropIn
+		out:dropOut
 	>
-		<container
-			class='input'
-		>
-			<container>
-				<Input 
-					backgroundColour='transparent'
-					activeBackgroundColour='transparent'
-					depth={0}
-					fontFamily='--font-family-1'
-					fontSize='--font-size-big'
-					isMovingLabel={false}
-					labelTop='--font-size-big'
-					height='min(30vw, 20rem)'
-					labelFontSize='--font-size-big'
-					indent={0}
-					label='name…'
-					buttonComponent={null}
-					bind:value={name}
-					on:submit={onSubmit}
-					bind:this={input}
-				/>
-			</container>
-		</container>
-		<container
-			class='buttons'
-		>
-			<container
-				class='customize'
-			>
-				<Button
-					backgroundColour='--colour-text-primary'
-					hoverColour='--colour-text-secondary'
-					textColour='--colour-background-primary'
-					icon='settings'
-					on:click={() => customizeDialogIsActiveW.set(true)}
-				>
-					customize
-				</Button>
-			</container>
-			<container
-				class='submit'
-			>
-				<Button
-					icon='nat'
-					on:click={onSubmit}
-				>
-					render it
-				</Button>
-			</container>
-		</container>
+		<heading>
+			BOO.
+		</heading>
 	</container>
-	<Dialog
-		isDismissingOnBlur={true}
-		isActiveW={customizeDialogIsActiveW} 
+
+	<container
+		class='normal'
 	>
-	</Dialog>
-</Fragment>
+		<heading>
+			Don't be scared,
+			<br>
+			<i>Anan</i> is here for when you're creeped out.
+		</heading>
+		<Spacer height={56} />
+		<string>
+			Anan is a web app that enables you to inconspiciously escape from situations, through peer-to-peer magic.
+			<br>
+			<br>
+			It's based on modern technologies such as WebSockets to ensure reliability.
+			<br>
+			Basically, it's awesome.
+			<br>
+			<br>
+			What are you waiting for?
+		</string>
+	</container>
+
+	<CallToAction />
+
+	<Footer />
+</AppBarFragment>
 
 <style>
+	container.lottie {
+		width: 100%;
+		height: 100vh;
+		/* position: absolute; */
+		/* top: 0; */
+
+		/* to be above collage, not sure why it's 21 though (collage goes up to 40) */
+		z-index: 0;
+	}
+
 	container.gradient {
 		position: fixed;
 		top: 0;
@@ -157,38 +171,39 @@
 			"customize submit";
 	}
 
-	container.buttons {
+	.boo {
 		display: flex;
-		gap: 24px;
+		align-items: center;
+		justify-content: center;
+
+		/* height: 100vh; */
+		width: calc(100vw - 12px);
+		overflow: hidden;
+
+		padding: calc(var(--padding) * 4);
+		box-sizing: border-box;
 	}
 
-	@media only screen and (max-width: 400px) {
-		container.buttons {
-			flex-direction: column;
-		}
+	.boo > heading {
+		font-size: 28rem;
+		transform: rotate(0deg);
+		word-break: break-word;
+    	line-height: 0.7em;
+
+		text-align: center;
+		margin-left: -32px;
 	}
 
-	.input { 
-		grid-area: input;
-
-		display: flex;
-
-		align-items: flex-end;
-
-		height: 56px;
-		width: 100%; 
+	.miniboo {
+		font-size: 28rem;
+		display: block;
+		position: absolute;
 	}
 
-	.customize { 
-		grid-area: customize; 
-	}
+	.normal {
+		padding: calc(var(--padding) * 2);
+		box-sizing: border-box;
 
-	.submit { 
-		grid-area: submit; 
+		background: var(--colour-accent-secondary);
 	}
-
-	.input > container {
-		flex-grow: 1;
-	}
-
 </style>
