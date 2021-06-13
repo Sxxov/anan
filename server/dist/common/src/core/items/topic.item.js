@@ -34,8 +34,8 @@ export class TopicItem extends Item {
 }
 export class TopicItemFactory extends Factory {
     create() {
-        const contentKeys = Object.keys(TopicGetResponseContentChoices);
-        const contactKeys = Object.keys(TopicGetResponseContactChoices);
+        const contentKeys = Object.keys(TopicGetResponseContentChoices).filter((key) => Number.isNaN(Number(key)));
+        const contactKeys = Object.keys(TopicGetResponseContactChoices).filter((key) => Number.isNaN(Number(key)));
         return TopicItem.from({
             content: contentKeys[Math.floor(Math.random() * contentKeys.length)],
             contact: contactKeys[Math.floor(Math.random() * contactKeys.length)],
