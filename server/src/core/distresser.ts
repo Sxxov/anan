@@ -35,6 +35,11 @@ export class Distresser {
 			)
 			.build();
 
+		console.log('$: connection.location:', connection.location);
+		console.log('$: Constants.DISTRESS_RADIUS_M:', Constants.DISTRESS_RADIUS_M);
+		console.log('$: validVertices:', validVertices);
+		console.log('$: verticesInRadius:', verticesInRadius);
+
 		const verticesInIgnoreZone = connection.compass
 			? intersecter
 				.polygon(
@@ -46,6 +51,7 @@ export class Distresser {
 				)
 				.build()
 			: [];
+		console.log('$: verticesInIgnoreZone:', verticesInIgnoreZone);
 
 		const verticesToNotify = verticesInRadius.filter(
 			(connectionInRadius) => !verticesInIgnoreZone.includes(connectionInRadius),
