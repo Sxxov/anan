@@ -31,7 +31,7 @@ export class Distresser {
 		const verticesInRadius = intersecter
 			.vertex(
 				connection.location,
-				Constants.DISTRESS_RADIUS_DEG,
+				Constants.DISTRESS_RADIUS_M,
 			)
 			.build();
 
@@ -41,7 +41,7 @@ export class Distresser {
 					Distresser.rectPolygonAlongAngle(
 						Constants.DISTRESS_RADIUS_DEG,
 						connection.compass,
-						connection.accuracy ?? undefined,
+						10,
 					),
 				)
 				.build()

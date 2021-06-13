@@ -19,7 +19,8 @@ Ctx.signals = new Map();
 
 export const enum Constants {
 	DEFAULT_PORT = 6969,
-	DISTRESS_RADIUS_DEG = 0.000001,
+	DISTRESS_RADIUS_DEG = 0.001,
+	DISTRESS_RADIUS_M = 100,
 }
 
 app.get('/api/v1', (req, res) => {

@@ -28,8 +28,8 @@ export const getWSRouter = () => {
 		let distressTimeoutHandle: ReturnType<typeof setTimeout> | null = null;
 
 		if (typeof token !== 'string'
-			|| !(await AccountDB.authenticate(token))) {
-			// ) {
+		|| !(await AccountDB.authenticate(token))) {
+		// ) {
 			ws.send(String(new ConnectionUnauthorizedErrorWSResponse()));
 			ws.close();
 
@@ -92,6 +92,10 @@ export const getWSRouter = () => {
 
 			if (connectionItem.isInDistress) {
 				const connectionsToNotify = new Distresser(Ctx.connections).connectionsAround(connectionItem);
+
+				console.log('$: connectionsToNotify:', connectionsToNotify);
+				console.log('$: Ctx.connections:', Ctx.connections);
+				console.log('$: connectionItem:', connectionItem);
 
 				distressItem = DistressItem.from({
 					location: connectionItem.location,
