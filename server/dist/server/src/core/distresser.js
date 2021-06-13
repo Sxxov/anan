@@ -26,11 +26,11 @@ export class Distresser {
         }
         const intersecter = new Intersecter(validVertices);
         const verticesInRadius = intersecter
-            .vertex(connection.location, 0.000001 /* DISTRESS_RADIUS_DEG */)
+            .vertex(connection.location, 100 /* DISTRESS_RADIUS_M */)
             .build();
         const verticesInIgnoreZone = connection.compass
             ? intersecter
-                .polygon(Distresser.rectPolygonAlongAngle(0.000001 /* DISTRESS_RADIUS_DEG */, connection.compass, connection.accuracy ?? undefined))
+                .polygon(Distresser.rectPolygonAlongAngle(0.001 /* DISTRESS_RADIUS_DEG */, connection.compass, 10))
                 .build()
             : [];
         const verticesToNotify = verticesInRadius.filter((connectionInRadius) => !verticesInIgnoreZone.includes(connectionInRadius));
