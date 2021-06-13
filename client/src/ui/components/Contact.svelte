@@ -18,8 +18,6 @@
 	};
 
 	function getRandom<T>(array: T[]) {
-		console.log('src:', array[Math.floor(Math.random() * array.length)]);
-
 		return array[Math.floor(Math.random() * array.length)];
 	}
 </script>
