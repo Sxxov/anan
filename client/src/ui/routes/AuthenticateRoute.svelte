@@ -1,5 +1,7 @@
 <script lang='ts'>
-	import { push } from 'svelte-spa-router';
+	import {
+		push, replace,
+} from 'svelte-spa-router';
 	import type {
 		UserCredential,
 	} from 'firebase/auth';
@@ -46,12 +48,12 @@ import ScrollableAppBar from '../blocks/appBars/ScrollableAppBar.svelte';
 		const idTokenResult = await user.getIdTokenResult();
 
 		if (!(idTokenResult.claims as unknown as CustomClaimsItem).identityValidated) {
-			await push('/verify');
+			await replace('/verify');
 
 			return;
 		}
 
-		await push('/dashboard');
+		await replace('/dashboard');
 
 		Ctx.globalToasts = [
 			ToastItem.from({
