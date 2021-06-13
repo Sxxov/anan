@@ -97,6 +97,10 @@ export class Businesser {
 		});
 
 		Ctx.s.pingItem.subscribe((value) => {
+			console.log('value:', value);
+			console.log('Ctx.globalSocket?.readyState', Ctx.globalSocket?.readyState);
+			console.log('Ctx.globalSocket', Ctx.globalSocket);
+
 			if (Ctx.globalSocket?.readyState !== Ctx.globalSocket?.OPEN) {
 				return;
 			}
@@ -136,6 +140,8 @@ export class Businesser {
 	}
 
 	private static onMessage(event: MessageEvent): void {
+		console.log('$: message:', event.data);
+
 		let data: BaseResponse;
 
 		try {
