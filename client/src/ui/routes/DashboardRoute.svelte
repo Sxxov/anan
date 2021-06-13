@@ -97,7 +97,7 @@
 	}
 </script>
 
-<svelte:window on:deviceorientation={(event) => currentOrientation = event.gamma} />
+<svelte:window on:deviceorientation={(event) => currentOrientation = event.alpha} />
 
 <Fragment
 	isPadded={false}
