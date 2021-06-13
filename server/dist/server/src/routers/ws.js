@@ -36,6 +36,9 @@ export const getWSRouter = () => {
         Ctx.signals.set(connectionItem, []);
         ws.send(String(new ConnectionTopicWSResponse(topic)));
         ws.on('message', (message) => {
+            console.log('$: message:', message);
+            console.log('$: connection:', connectionItem);
+            console.log('$: connections:', Ctx.connections.value);
             let messageConnectionItem;
             try {
                 if (typeof message !== 'string') {
@@ -83,6 +86,7 @@ export const getWSRouter = () => {
                     distressNotifiedConnections.push(connectionToNotify);
                 });
                 distressTimeoutHandle = setTimeout(clearDistressNotifiedConnections, 30000);
+                console.log('$: distressNotifiedConnections.length:', distressNotifiedConnections.length);
                 ws.send(String(new DistressSignalEmitSuccessWSResponse(distressNotifiedConnections.length)));
             }
         });
