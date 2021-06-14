@@ -29,7 +29,7 @@ export class Distresser {
 		const intersecter = new Intersecter(validVertices);
 
 		const verticesInRadius = intersecter
-			.vertex(
+			.coordinate(
 				connection.location,
 				Constants.DISTRESS_RADIUS_M,
 			)

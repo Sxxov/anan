@@ -20,7 +20,7 @@ export class Intersecter {
     }
     coordinate(coordinate, radiusM) {
         this.vertices = this.vertices.filter((v) => {
-            return Intersecter.getDistanceBetweenCoordinates(v, coordinate) <= radiusM;
+            return Intersecter.getDistanceBetweenCoordinates(v, coordinate) <= radiusM / 1000;
         });
         return this;
     }
@@ -29,13 +29,22 @@ export class Intersecter {
         return this.vertices;
     }
     // https://stackoverflow.com/a/19356480
-    static getDistanceBetweenCoordinates([lat1, lon1], [lat2, lon2]) {
-        const latMid = (lat1 + lat2) / 2.0; // or just use Lat1 for slightly less accurate estimate
-        const meterPerDegreeLat = 111132.954 - (559.822 * Math.cos(2.0 * latMid)) + (1.175 * Math.cos(4.0 * latMid));
-        const meterPerDegreeLon = (3.14159265359 / 180) * 6367449 * Math.cos(latMid);
-        const deltaLat = Math.abs(lat1 - lat2);
-        const deltaLon = Math.abs(lon1 - lon2);
-        const meters = (Math.sqrt((deltaLat * meterPerDegreeLat) ** 2) + ((deltaLon * meterPerDegreeLon) ** 2));
-        return meters;
+    static getDistanceBetweenCoordinates(ll1, ll2) {
+        const lat1 = ll1[0];
+        const lon1 = ll1[1];
+        const lat2 = ll2[0];
+        const lon2 = ll2[1];
+        const R = 6371; // Radius of the earth in km
+        const dLat = this.degToRad(lat2 - lat1); // deg2rad below
+        const dLon = this.degToRad(lon2 - lon1);
+        const a = (Math.sin(dLat / 2) * Math.sin(dLat / 2))
+            + (((Math.cos(this.degToRad(lat1)) * Math.cos(this.degToRad(lat2)))
+                * Math.sin(dLon / 2)) * Math.sin(dLon / 2));
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const d = R * c; // Distance in km
+        return d;
+    }
+    static degToRad(degree) {
+        return degree * Math.PI / 180;
     }
 }
