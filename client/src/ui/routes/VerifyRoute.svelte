@@ -49,7 +49,7 @@
 		form.append('ic', file);
 
 		try {
-			const result = await (await fetch('http://anan-server.herokuapp.com/api/v1/verify/submit/ic', {
+			const result = await (await fetch('https://anan-server.herokuapp.com/api/v1/verify/submit/ic', {
 				method: 'POST',
 				body: form,
 			})).json();

@@ -3,7 +3,7 @@ Working on "node_modules". It might take a while...
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│                                [1mPackages (589)[22m                                │
+│                                [1mPackages (720)[22m                                │
 │                                                                              │
 ├───────────────────────────┬────────────────┬────────────────┬────────────────┤
 │ Module name               │ package        │ License        │ README         │
@@ -35,11 +35,69 @@ Working on "node_modules". It might take a while...
 │ @babel/traverse@7.14.2    │ MIT            │ MIT            │ -              │
 │ @babel/types@7.14.4       │ MIT            │ MIT            │ -              │
 │ @eslint/eslintrc@0.4.2    │ MIT            │ MIT            │ MIT            │
+│ @firebase/analytics-compa │ Apache 2.0     │ -              │ -              │
+│ @firebase/analytics-types │ Apache 2.0     │ -              │ -              │
+│ @firebase/analytics@0.0.9 │ Apache 2.0     │ -              │ -              │
+│ @firebase/app-compat@0.0. │ Apache 2.0     │ -              │ -              │
+│ @firebase/app-types@0.6.2 │ Apache 2.0     │ -              │ -              │
+│ @firebase/app@0.0.900-exp │ Apache 2.0     │ -              │ -              │
+│ @firebase/auth-compat@0.0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/auth-exp/intern │ -              │ -              │ -              │
+│ @firebase/auth-interop-ty │ Apache 2.0     │ -              │ -              │
+│ @firebase/auth-types@0.10 │ Apache 2.0     │ -              │ -              │
+│ @firebase/auth@0.0.900-ex │ Apache 2.0     │ -              │ -              │
+│ @firebase/component@0.5.0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/database-compat │ Apache 2.0     │ -              │ -              │
+│ @firebase/database-types@ │ Apache 2.0     │ -              │ -              │
+│ @firebase/database@0.0.90 │ Apache 2.0     │ -              │ -              │
+│ @firebase/firestore-compa │ Apache 2.0     │ -              │ -              │
+│ @firebase/firestore-lite@ │ -              │ -              │ -              │
+│ @firebase/firestore-types │ Apache 2.0     │ -              │ -              │
+│ @firebase/firestore@0.0.9 │ Apache 2.0     │ -              │ -              │
+│ @firebase/firestore/bundl │ -              │ -              │ -              │
+│ @firebase/firestore/memor │ -              │ -              │ -              │
+│ @firebase/firestore/memor │ -              │ -              │ -              │
+│ @firebase/functions-compa │ Apache 2.0     │ -              │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ @firebase/functions-types │ Apache 2.0     │ -              │ -              │
+│ @firebase/functions@0.0.9 │ Apache 2.0     │ -              │ -              │
+│ @firebase/installations@0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/logger@0.2.6    │ Apache 2.0     │ -              │ -              │
+│ @firebase/messaging-compa │ Apache 2.0     │ -              │ -              │
+│ @firebase/messaging-exp@u │ -              │ -              │ -              │
+│ @firebase/messaging-types │ Apache 2.0     │ -              │ -              │
+│ @firebase/messaging@0.0.9 │ Apache 2.0     │ -              │ -              │
+│ @firebase/performance-com │ Apache 2.0     │ -              │ -              │
+│ @firebase/performance-typ │ Apache 2.0     │ -              │ -              │
+│ @firebase/performance@0.0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/remote-config-c │ Apache 2.0     │ -              │ -              │
+│ @firebase/remote-config-t │ Apache 2.0     │ -              │ -              │
+│ @firebase/remote-config@0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/storage-compat@ │ Apache 2.0     │ -              │ -              │
+│ @firebase/storage-exp@und │ -              │ -              │ -              │
+│ @firebase/storage-types@0 │ Apache 2.0     │ -              │ -              │
+│ @firebase/storage@0.0.900 │ Apache 2.0     │ -              │ -              │
+│ @firebase/util@1.1.0      │ Apache 2.0     │ -              │ -              │
+│ @firebase/webchannel-wrap │ Apache 2.0     │ -              │ -              │
+│ @grpc/grpc-js@1.3.2       │ Apache 2.0     │ Apache 2.0     │ -              │
+│ @grpc/proto-loader@0.5.6  │ Apache 2.0     │ Apache 2.0     │ -              │
 │ @nodelib/fs.scandir@2.1.5 │ MIT            │ MIT            │ MIT            │
 │ @nodelib/fs.stat@2.0.5    │ MIT            │ MIT            │ MIT            │
 │ @nodelib/fs.walk@1.2.7    │ MIT            │ MIT            │ MIT            │
 │ @polka/url@0.5.0          │ MIT            │ -              │ -              │
 │ @polka/url@1.0.0-next.15  │ MIT            │ MIT            │ -              │
+│ @protobufjs/aspromise@1.1 │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/base64@1.1.2  │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/codegen@2.0.4 │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/eventemitter@ │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/fetch@1.1.0   │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/float@1.0.2   │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/inquire@1.1.0 │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/path@1.1.2    │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/pool@1.1.0    │ BSD 3 Clause   │ -              │ -              │
+│ @protobufjs/utf8@1.1.0    │ BSD 3 Clause   │ -              │ -              │
 │ @rollup/plugin-babel@5.3. │ MIT            │ MIT            │ MIT            │
 │ @rollup/plugin-commonjs@1 │ MIT            │ MIT            │ MIT            │
 │ @rollup/plugin-json@4.1.0 │ MIT            │ MIT            │ MIT            │
@@ -53,14 +111,15 @@ Working on "node_modules". It might take a while...
 │ @types/express-serve-stat │ MIT            │ MIT            │ -              │
 │ @types/express@4.17.12    │ MIT            │ MIT            │ -              │
 │ @types/glob@7.1.3         │ MIT            │ MIT            │ -              │
-│ @types/http-proxy@1.17.6  │ MIT            │ MIT            │ -              │
-│ @types/json-schema@7.0.7  │ MIT            │ MIT            │ -              │
-│ @types/json5@0.0.29       │ MIT            │ -              │ -              │
-│ @types/mime@1.3.2         │ MIT            │ MIT            │ -              │
-│ @types/minimatch@3.0.4    │ MIT            │ MIT            │ -              │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ Module name               │ package        │ License        │ README         │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ @types/http-proxy@1.17.6  │ MIT            │ MIT            │ -              │
+│ @types/json-schema@7.0.7  │ MIT            │ MIT            │ -              │
+│ @types/json5@0.0.29       │ MIT            │ -              │ -              │
+│ @types/long@4.0.1         │ MIT            │ MIT            │ -              │
+│ @types/mime@1.3.2         │ MIT            │ MIT            │ -              │
+│ @types/minimatch@3.0.4    │ MIT            │ MIT            │ -              │
 │ @types/mri@1.1.0          │ MIT            │ MIT            │ -              │
 │ @types/node@15.12.2       │ MIT            │ MIT            │ -              │
 │ @types/parse-json@4.0.0   │ MIT            │ MIT            │ -              │
@@ -99,10 +158,17 @@ Working on "node_modules". It might take a while...
 │ array-union@2.1.0         │ MIT            │ MIT            │ -              │
 │ array.prototype.flat@1.2. │ MIT            │ MIT            │ -              │
 │ astral-regex@2.0.0        │ MIT            │ MIT            │ -              │
+│ async@2.6.3               │ MIT            │ MIT            │ -              │
+│ balanced-match@1.0.0      │ MIT            │ MIT            │ MIT            │
 │ balanced-match@1.0.2      │ MIT            │ MIT            │ MIT            │
+│ basic-auth@1.1.0          │ MIT            │ MIT            │ MIT            │
 │ big.js@5.2.2              │ MIT            │ -              │ -              │
 │ bin@1.0.0                 │ BSD 2 Clause   │ -              │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ binary-extensions@2.2.0   │ MIT            │ MIT            │ -              │
+│ bindings@1.5.0            │ MIT            │ MIT            │ MIT            │
 │ boolbase@1.0.0            │ ISC            │ -              │ -              │
 │ brace-expansion@1.1.11    │ MIT            │ MIT            │ MIT            │
 │ braces@3.0.2              │ MIT            │ MIT            │ MIT            │
@@ -111,9 +177,6 @@ Working on "node_modules". It might take a while...
 │ builtin-modules@3.2.0     │ MIT            │ MIT            │ -              │
 │ call-bind@1.0.2           │ MIT            │ MIT            │ -              │
 │ caller-callsite@2.0.0     │ MIT            │ MIT            │ -              │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ caller-path@2.0.0         │ MIT            │ MIT            │ -              │
 │ callsites@2.0.0           │ MIT            │ MIT            │ -              │
 │ callsites@3.1.0           │ MIT            │ MIT            │ -              │
@@ -133,6 +196,7 @@ Working on "node_modules". It might take a while...
 │ color@3.1.3               │ MIT            │ MIT            │ -              │
 │ colord@2.0.1              │ MIT            │ MIT            │ -              │
 │ colorette@1.2.2           │ MIT            │ MIT            │ MIT            │
+│ colors@1.4.0              │ MIT            │ MIT            │ -              │
 │ commander@2.20.3          │ MIT            │ MIT            │ -              │
 │ commander@7.2.0           │ MIT            │ MIT            │ -              │
 │ commondir@1.0.1           │ MIT            │ MIT            │ -              │
@@ -141,6 +205,9 @@ Working on "node_modules". It might take a while...
 │ confusing-browser-globals │ MIT            │ MIT            │ -              │
 │ console-clear@1.1.1       │ MIT            │ MIT            │ -              │
 │ convert-source-map@1.7.0  │ MIT            │ MIT            │ -              │
+│ core-js@3.14.0            │ MIT            │ MIT            │ W3C            │
+│ core-util-is@1.0.2        │ MIT            │ MIT            │ -              │
+│ corser@2.0.1              │ MIT            │ MIT            │ -              │
 │ cosmiconfig@5.2.1         │ MIT            │ MIT            │ -              │
 │ cosmiconfig@7.0.0         │ MIT            │ MIT            │ -              │
 │ cross-spawn@6.0.5         │ MIT            │ MIT            │ MIT            │
@@ -150,6 +217,9 @@ Working on "node_modules". It might take a while...
 │ css-declaration-sorter@4. │ MIT            │ MIT            │ -              │
 │ css-declaration-sorter@6. │ ISC            │ ISC            │ -              │
 │ css-select-base-adapter@0 │ MIT            │ MIT            │ MIT            │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ css-select@2.1.0          │ BSD 2 Clause   │ -              │ -              │
 │ css-select@3.1.2          │ BSD 2 Clause   │ -              │ -              │
 │ css-tree@1.0.0-alpha.37   │ MIT            │ MIT            │ W3C            │
@@ -164,12 +234,11 @@ Working on "node_modules". It might take a while...
 │ cssnano-util-raw-cache@4. │ MIT            │ -              │ -              │
 │ cssnano-util-same-parent@ │ MIT            │ -              │ -              │
 │ cssnano-utils@2.0.1       │ MIT            │ -              │ -              │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ cssnano@4.1.11            │ MIT            │ -              │ -              │
 │ cssnano@5.0.5             │ MIT            │ -              │ -              │
 │ csso@4.2.0                │ MIT            │ MIT            │ -              │
+│ deasync-promise@1.0.1     │ ISC            │ -              │ -              │
+│ deasync@0.1.21            │ MIT            │ MIT            │ MIT            │
 │ debug@2.6.9               │ MIT            │ MIT            │ MIT            │
 │ debug@3.2.7               │ MIT            │ MIT            │ MIT            │
 │ debug@4.3.1               │ MIT            │ MIT            │ MIT            │
@@ -184,12 +253,14 @@ Working on "node_modules". It might take a while...
 │ doctrine@3.0.0            │ Apache 2.0     │ Apache 2.0     │ Apache + Apach │
 │ dom-serializer@0.2.2      │ MIT            │ MIT            │ -              │
 │ dom-serializer@1.3.2      │ MIT            │ MIT            │ -              │
+│ dom-storage@2.1.0         │ Apache 2.0 + M │ Apache 2.0     │ W3C            │
 │ domelementtype@1.3.1      │ BSD 2 Clause   │ -              │ -              │
 │ domelementtype@2.2.0      │ BSD 2 Clause   │ -              │ -              │
 │ domhandler@4.2.0          │ BSD 2 Clause   │ -              │ -              │
 │ domutils@1.7.0            │ BSD 2 Clause   │ -              │ -              │
 │ domutils@2.7.0            │ BSD 2 Clause   │ -              │ -              │
 │ dot-prop@5.3.0            │ MIT            │ MIT            │ -              │
+│ ecstatic@3.3.2            │ MIT            │ MIT            │ -              │
 │ electron-to-chromium@1.3. │ ISC            │ ISC            │ -              │
 │ emoji-regex@8.0.0         │ MIT            │ -              │ MIT            │
 │ emojis-list@3.0.0         │ MIT            │ MIT            │ -              │
@@ -199,15 +270,19 @@ Working on "node_modules". It might take a while...
 │ error-stack-parser@2.0.6  │ MIT            │ MIT            │ -              │
 │ es-abstract@1.18.3        │ MIT            │ MIT            │ -              │
 │ es-to-primitive@1.2.1     │ MIT            │ MIT            │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ escalade@3.1.1            │ MIT            │ MIT            │ -              │
 │ escape-string-regexp@1.0. │ MIT            │ MIT            │ -              │
 │ escape-string-regexp@4.0. │ MIT            │ MIT            │ -              │
+│ escodegen@2.0.0           │ BSD 2 Clause   │ -              │ -              │
 │ eslint-config-airbnb-base │ MIT            │ MIT            │ -              │
 │ eslint-import-resolver-no │ MIT            │ MIT            │ -              │
 │ eslint-module-utils@2.6.1 │ MIT            │ MIT            │ -              │
 │ eslint-plugin-destructuri │ MIT            │ -              │ -              │
 │ eslint-plugin-import@2.23 │ MIT            │ MIT            │ -              │
-│ eslint-plugin-svelte3@3.2 │ MIT            │ MIT            │ MIT            │
+│ eslint-plugin-svelte3@2.7 │ MIT            │ MIT            │ MIT            │
 │ eslint-scope@5.1.1        │ BSD 2 Clause   │ -              │ -              │
 │ eslint-svelte3-preprocess │ MIT            │ -              │ -              │
 │ eslint-utils@2.1.0        │ MIT            │ MIT            │ -              │
@@ -217,9 +292,6 @@ Working on "node_modules". It might take a while...
 │ eslint@7.28.0             │ MIT            │ MIT            │ -              │
 │ espree@7.3.1              │ BSD 2 Clause   │ BSD 2 Clause   │ -              │
 │ esprima@4.0.1             │ BSD 2 Clause   │ -              │ BSD 2 Clause + │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ esquery@1.4.0             │ BSD 3 Clause   │ -              │ -              │
 │ esrecurse@4.3.0           │ BSD 2 Clause   │ -              │ -              │
 │ estraverse@4.3.0          │ BSD 2 Clause   │ -              │ -              │
@@ -234,10 +306,38 @@ Working on "node_modules". It might take a while...
 │ fast-json-stable-stringif │ MIT            │ MIT            │ -              │
 │ fast-levenshtein@2.0.6    │ MIT            │ MIT            │ -              │
 │ fastq@1.11.0              │ ISC            │ ISC            │ -              │
+│ faye-websocket@0.11.3     │ Apache 2.0     │ Apache + Apach │ -              │
 │ file-entry-cache@6.0.1    │ MIT            │ MIT            │ -              │
+│ file-uri-to-path@1.0.0    │ MIT            │ MIT            │ MIT            │
 │ fill-range@7.0.1          │ MIT            │ MIT            │ MIT            │
 │ find-up@2.1.0             │ MIT            │ MIT            │ -              │
 │ find-yarn-workspace-root@ │ Apache 2.0     │ Apache 2.0     │ -              │
+│ firebase-exp/analytics@un │ -              │ -              │ -              │
+│ firebase-exp/app@undefine │ -              │ -              │ -              │
+│ firebase-exp/auth@undefin │ -              │ -              │ -              │
+│ firebase-exp/compat@undef │ -              │ -              │ -              │
+│ firebase-exp/compat/analy │ -              │ -              │ -              │
+│ firebase-exp/compat/app@u │ -              │ -              │ -              │
+│ firebase-exp/compat/auth@ │ -              │ -              │ -              │
+│ firebase-exp/compat/datab │ -              │ -              │ -              │
+│ firebase-exp/compat/fires │ -              │ -              │ -              │
+│ firebase-exp/compat/funct │ -              │ -              │ -              │
+│ firebase-exp/compat/messa │ -              │ -              │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ firebase-exp/compat/perfo │ -              │ -              │ -              │
+│ firebase-exp/compat/remot │ -              │ -              │ -              │
+│ firebase-exp/compat/stora │ -              │ -              │ -              │
+│ firebase-exp/database@und │ -              │ -              │ -              │
+│ firebase-exp/firestore@un │ -              │ -              │ -              │
+│ firebase-exp/firestore/li │ -              │ -              │ -              │
+│ firebase-exp/functions@un │ -              │ -              │ -              │
+│ firebase-exp/messaging@un │ -              │ -              │ -              │
+│ firebase-exp/performance@ │ -              │ -              │ -              │
+│ firebase-exp/remote-confi │ -              │ -              │ -              │
+│ firebase-exp/storage@unde │ -              │ -              │ -              │
+│ firebase@9.0.0-beta.2     │ Apache 2.0     │ -              │ -              │
 │ flat-cache@3.0.4          │ MIT            │ MIT            │ -              │
 │ flatted@3.1.1             │ ISC            │ ISC            │ -              │
 │ follow-redirects@1.14.1   │ MIT            │ MIT            │ MIT            │
@@ -250,6 +350,7 @@ Working on "node_modules". It might take a while...
 │ get-intrinsic@1.1.1       │ MIT            │ MIT            │ -              │
 │ get-port@3.2.0            │ MIT            │ MIT            │ -              │
 │ glob-parent@5.1.2         │ ISC            │ ISC            │ -              │
+│ glob@7.1.6                │ ISC            │ ISC            │ -              │
 │ glob@7.1.7                │ ISC            │ ISC            │ -              │
 │ globals@11.12.0           │ MIT            │ MIT            │ -              │
 │ globals@13.9.0            │ MIT            │ MIT            │ -              │
@@ -261,20 +362,25 @@ Working on "node_modules". It might take a while...
 │ has-flag@4.0.0            │ MIT            │ MIT            │ -              │
 │ has-symbols@1.0.2         │ MIT            │ MIT            │ -              │
 │ has@1.0.3                 │ MIT            │ -              │ -              │
+│ he@1.2.0                  │ MIT            │ -              │ MIT            │
 │ hex-color-regex@1.1.0     │ MIT            │ MIT            │ MIT            │
 │ hosted-git-info@2.8.9     │ ISC            │ ISC            │ -              │
 │ hsl-regex@1.0.0           │ MIT            │ MIT            │ -              │
 │ hsla-regex@1.0.0          │ MIT            │ MIT            │ -              │
 │ http-https@1.0.0          │ ISC            │ ISC            │ -              │
+│ http-parser-js@0.5.3      │ MIT            │ MIT            │ -              │
 │ http-proxy-middleware@2.0 │ MIT            │ MIT            │ MIT            │
 │ http-proxy@1.18.1         │ MIT            │ MIT            │ MIT            │
+│ http-server@0.12.3        │ MIT            │ MIT            │ -              │
 │ icss-replace-symbols@1.1. │ ISC            │ -              │ -              │
 │ icss-utils@5.1.0          │ ISC            │ ISC            │ -              │
+│ idb@3.0.2                 │ ISC            │ ISC            │ -              │
+│ ignore@4.0.6              │ MIT            │ -              │ -              │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ Module name               │ package        │ License        │ README         │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ ignore@4.0.6              │ MIT            │ -              │ -              │
 │ ignore@5.1.8              │ MIT            │ -              │ -              │
+│ immediate@3.0.6           │ MIT            │ MIT            │ W3C            │
 │ import-cwd@3.0.0          │ MIT            │ MIT            │ -              │
 │ import-fresh@2.0.0        │ MIT            │ MIT            │ -              │
 │ import-fresh@3.3.0        │ MIT            │ MIT            │ -              │
@@ -316,26 +422,30 @@ Working on "node_modules". It might take a while...
 │ is-symbol@1.0.4           │ MIT            │ MIT            │ -              │
 │ is-url@1.2.4              │ MIT            │ -              │ -              │
 │ is-wsl@2.2.0              │ MIT            │ MIT            │ -              │
+│ isarray@1.0.0             │ MIT            │ -              │ MIT            │
 │ isexe@2.0.0               │ ISC            │ ISC            │ -              │
 │ jest-worker@26.6.2        │ MIT            │ MIT            │ -              │
 │ js-tokens@4.0.0           │ MIT            │ MIT            │ MIT            │
 │ js-yaml@3.14.1            │ MIT            │ MIT            │ -              │
 │ jsesc@2.5.2               │ MIT            │ -              │ MIT            │
 │ json-parse-better-errors@ │ MIT            │ MIT            │ -              │
-│ json-parse-even-better-er │ MIT            │ MIT            │ -              │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ Module name               │ package        │ License        │ README         │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ json-parse-even-better-er │ MIT            │ MIT            │ -              │
 │ json-schema-traverse@0.4. │ MIT            │ MIT            │ -              │
 │ json-schema-traverse@1.0. │ MIT            │ MIT            │ -              │
 │ json-stable-stringify-wit │ MIT            │ MIT            │ -              │
 │ json5@1.0.1               │ MIT            │ MIT            │ -              │
 │ json5@2.2.0               │ MIT            │ MIT            │ -              │
 │ jsonfile@4.0.0            │ MIT            │ MIT            │ MIT            │
+│ jszip@3.6.0               │ GPL 3.0 + MIT  │ -              │ -              │
 │ klaw-sync@6.0.0           │ MIT            │ MIT            │ -              │
 │ kleur@3.0.3               │ MIT            │ MIT            │ -              │
 │ kleur@4.1.4               │ MIT            │ MIT            │ -              │
+│ levn@0.3.0                │ MIT            │ MIT            │ MIT            │
 │ levn@0.4.1                │ MIT            │ MIT            │ MIT            │
+│ lie@3.3.0                 │ MIT            │ MIT            │ -              │
 │ lines-and-columns@1.1.6   │ MIT            │ MIT            │ -              │
 │ livereload-js@3.3.2       │ MIT            │ MIT            │ MIT            │
 │ livereload@0.9.3          │ MIT            │ MIT            │ MIT            │
@@ -352,6 +462,7 @@ Working on "node_modules". It might take a while...
 │ lodash.truncate@4.4.2     │ MIT            │ CC0 + MIT      │ -              │
 │ lodash.uniq@4.5.0         │ MIT            │ CC0 + MIT      │ -              │
 │ lodash@4.17.21            │ MIT            │ CC0 + MIT      │ -              │
+│ long@4.0.0                │ Apache 2.0     │ Apache 2.0     │ -              │
 │ lottie-web@5.7.11         │ MIT            │ MIT            │ -              │
 │ lru-cache@6.0.0           │ ISC            │ ISC            │ -              │
 │ magic-string@0.25.7       │ MIT            │ MIT            │ -              │
@@ -361,6 +472,7 @@ Working on "node_modules". It might take a while...
 │ merge-stream@2.0.0        │ MIT            │ MIT            │ W3C            │
 │ merge2@1.4.1              │ MIT            │ MIT            │ -              │
 │ micromatch@4.0.4          │ MIT            │ MIT            │ MIT            │
+│ mime@1.6.0                │ MIT            │ MIT            │ -              │
 │ mime@2.5.2                │ MIT            │ MIT            │ -              │
 │ min-indent@1.0.1          │ MIT            │ MIT            │ -              │
 │ minimatch@3.0.4           │ ISC            │ ISC            │ -              │
@@ -370,15 +482,17 @@ Working on "node_modules". It might take a while...
 │ mri@1.1.6                 │ MIT            │ MIT            │ -              │
 │ ms@2.0.0                  │ MIT            │ MIT            │ -              │
 │ ms@2.1.2                  │ MIT            │ MIT            │ -              │
-│ nanoid@3.1.23             │ MIT            │ MIT            │ -              │
-│ natural-compare@1.4.0     │ MIT            │ -              │ MIT            │
-│ nice-try@1.0.5            │ MIT            │ MIT            │ -              │
-│ node-releases@1.1.73      │ MIT            │ MIT            │ -              │
-│ normalize-package-data@2. │ BSD 2 Clause   │ BSD 2 Clause + │ JSON           │
-│ normalize-path@3.0.0      │ MIT            │ MIT            │ MIT            │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ Module name               │ package        │ License        │ README         │
 ├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ nanoid@3.1.23             │ MIT            │ MIT            │ -              │
+│ natural-compare@1.4.0     │ MIT            │ -              │ MIT            │
+│ nice-try@1.0.5            │ MIT            │ MIT            │ -              │
+│ node-addon-api@1.7.2      │ MIT            │ MIT            │ MIT            │
+│ node-fetch@2.6.1          │ MIT            │ MIT            │ -              │
+│ node-releases@1.1.73      │ MIT            │ MIT            │ -              │
+│ normalize-package-data@2. │ BSD 2 Clause   │ BSD 2 Clause + │ JSON           │
+│ normalize-path@3.0.0      │ MIT            │ MIT            │ MIT            │
 │ normalize-url@3.3.0       │ MIT            │ MIT            │ -              │
 │ normalize-url@4.5.1       │ MIT            │ MIT            │ -              │
 │ nth-check@1.0.2           │ BSD 2 Clause   │ -              │ -              │
@@ -391,6 +505,8 @@ Working on "node_modules". It might take a while...
 │ object.values@1.1.4       │ MIT            │ MIT            │ -              │
 │ once@1.4.0                │ ISC            │ ISC            │ -              │
 │ open@7.4.2                │ MIT            │ MIT            │ -              │
+│ opener@1.5.2              │ MIT + WTFPL    │ MIT            │ -              │
+│ optionator@0.8.3          │ MIT            │ MIT            │ MIT            │
 │ optionator@0.9.1          │ MIT            │ MIT            │ MIT            │
 │ opts@2.0.2                │ BSD 2 Clause   │ -              │ -              │
 │ os-tmpdir@1.0.2           │ MIT            │ MIT            │ -              │
@@ -401,6 +517,7 @@ Working on "node_modules". It might take a while...
 │ p-queue@6.6.2             │ MIT            │ MIT            │ -              │
 │ p-timeout@3.2.0           │ MIT            │ MIT            │ -              │
 │ p-try@1.0.0               │ MIT            │ MIT            │ -              │
+│ pako@1.0.11               │ MIT + Zlib     │ MIT            │ -              │
 │ parent-module@1.0.1       │ MIT            │ MIT            │ -              │
 │ parse-json@4.0.0          │ MIT            │ MIT            │ -              │
 │ parse-json@5.2.0          │ MIT            │ MIT            │ -              │
@@ -418,7 +535,11 @@ Working on "node_modules". It might take a while...
 │ pify@5.0.0                │ MIT            │ MIT            │ -              │
 │ pkg-dir@2.0.0             │ MIT            │ MIT            │ -              │
 │ pkg-up@2.0.0              │ MIT            │ MIT            │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ polka@0.5.2               │ MIT            │ -              │ -              │
+│ portfinder@1.0.28         │ MIT            │ MIT            │ MIT            │
 │ postcss-calc@7.0.5        │ MIT            │ MIT            │ W3C            │
 │ postcss-calc@8.0.0        │ MIT            │ MIT            │ W3C            │
 │ postcss-colormin@4.0.3    │ MIT            │ -              │ -              │
@@ -429,9 +550,6 @@ Working on "node_modules". It might take a while...
 │ postcss-discard-comments@ │ MIT            │ -              │ -              │
 │ postcss-discard-duplicate │ MIT            │ -              │ -              │
 │ postcss-discard-duplicate │ MIT            │ -              │ -              │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ postcss-discard-empty@4.0 │ MIT            │ -              │ -              │
 │ postcss-discard-empty@5.0 │ MIT            │ -              │ -              │
 │ postcss-discard-overridde │ MIT            │ MIT            │ -              │
@@ -470,6 +588,9 @@ Working on "node_modules". It might take a while...
 │ postcss-normalize-timing- │ MIT            │ -              │ -              │
 │ postcss-normalize-unicode │ MIT            │ -              │ -              │
 │ postcss-normalize-unicode │ MIT            │ -              │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ postcss-normalize-url@4.0 │ MIT            │ -              │ -              │
 │ postcss-normalize-url@5.0 │ MIT            │ -              │ -              │
 │ postcss-normalize-whitesp │ MIT            │ -              │ -              │
@@ -482,9 +603,6 @@ Working on "node_modules". It might take a while...
 │ postcss-reduce-transforms │ MIT            │ -              │ -              │
 │ postcss-selector-parser@3 │ MIT            │ -              │ -              │
 │ postcss-selector-parser@6 │ MIT            │ -              │ -              │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ postcss-svgo@4.0.3        │ MIT            │ -              │ W3C            │
 │ postcss-svgo@5.0.2        │ MIT            │ -              │ W3C            │
 │ postcss-unique-selectors@ │ MIT            │ -              │ -              │
@@ -492,19 +610,24 @@ Working on "node_modules". It might take a while...
 │ postcss-value-parser@3.3. │ MIT            │ MIT            │ -              │
 │ postcss-value-parser@4.1. │ MIT            │ MIT            │ -              │
 │ postcss@7.0.35            │ MIT            │ MIT            │ -              │
-│ postcss@8.3.0             │ MIT            │ MIT            │ -              │
+│ postcss@8.3.2             │ MIT            │ MIT            │ -              │
+│ prelude-ls@1.1.2          │ MIT            │ MIT            │ -              │
 │ prelude-ls@1.2.1          │ MIT            │ MIT            │ -              │
+│ process-nextick-args@2.0. │ MIT            │ MIT            │ -              │
 │ progress@2.0.3            │ MIT            │ MIT            │ -              │
 │ promise.series@0.2.0      │ MIT            │ MIT            │ MIT            │
+│ protobufjs@6.11.2         │ BSD 3 Clause   │ -              │ W3C            │
 │ punycode@1.3.2            │ MIT            │ -              │ MIT            │
 │ punycode@2.1.1            │ MIT            │ -              │ MIT            │
 │ q@1.5.1                   │ MIT            │ MIT            │ MIT            │
+│ qs@6.10.1                 │ BSD 3 Clause   │ BSD 3 Clause   │ -              │
 │ querystring@0.2.0         │ MIT            │ MIT            │ -              │
 │ queue-microtask@1.2.3     │ MIT            │ MIT            │ -              │
 │ randombytes@2.1.0         │ MIT            │ MIT            │ -              │
 │ read-cache@1.0.0          │ MIT            │ MIT            │ -              │
 │ read-pkg-up@3.0.0         │ MIT            │ MIT            │ JSON           │
 │ read-pkg@3.0.0            │ MIT            │ MIT            │ -              │
+│ readable-stream@2.3.7     │ MIT            │ MIT            │ -              │
 │ readdirp@3.5.0            │ MIT            │ MIT            │ MIT            │
 │ regexparam@1.3.0          │ MIT            │ MIT            │ -              │
 │ regexpp@3.1.0             │ MIT            │ MIT            │ -              │
@@ -518,6 +641,9 @@ Working on "node_modules". It might take a while...
 │ resolve@1.20.0            │ MIT            │ MIT            │ -              │
 │ reusify@1.0.4             │ MIT            │ MIT            │ -              │
 │ rgb-regex@1.0.1           │ MIT            │ MIT            │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ rgba-regex@1.0.0          │ MIT            │ MIT            │ -              │
 │ rimraf@2.7.1              │ ISC            │ ISC            │ -              │
 │ rimraf@3.0.2              │ ISC            │ ISC            │ -              │
@@ -535,18 +661,20 @@ Working on "node_modules". It might take a while...
 │ safe-buffer@5.1.2         │ MIT            │ MIT            │ -              │
 │ safe-identifier@0.4.2     │ ISC            │ ISC            │ -              │
 │ sax@1.2.4                 │ ISC            │ ISC + MIT      │ -              │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ secure-compare@3.0.1      │ MIT            │ -              │ MIT            │
+│ selenium-webdriver@4.0.0- │ Apache 2.0     │ Apache 2.0     │ Apache + Apach │
+│ selenium-webdriver@4.0.0- │ Apache 2.0     │ Apache 2.0     │ Apache + Apach │
 │ semiver@1.1.0             │ MIT            │ MIT            │ -              │
 │ semver@5.7.1              │ ISC            │ ISC            │ -              │
 │ semver@6.3.0              │ ISC            │ ISC            │ -              │
 │ semver@7.3.5              │ ISC            │ ISC            │ -              │
 │ serialize-javascript@4.0. │ BSD 3 Clause   │ -              │ BSD 2 Clause + │
+│ set-immediate-shim@1.0.1  │ MIT            │ -              │ -              │
 │ shebang-command@1.2.0     │ MIT            │ MIT            │ -              │
 │ shebang-command@2.0.0     │ MIT            │ MIT            │ -              │
 │ shebang-regex@1.0.0       │ MIT            │ MIT            │ -              │
 │ shebang-regex@3.0.0       │ MIT            │ MIT            │ -              │
+│ side-channel@1.0.4        │ MIT            │ MIT            │ -              │
 │ siema@1.5.1               │ MIT            │ MIT            │ -              │
 │ simple-swizzle@0.2.2      │ MIT            │ MIT            │ MIT            │
 │ sirv-cli@1.0.12           │ MIT            │ MIT            │ -              │
@@ -566,10 +694,14 @@ Working on "node_modules". It might take a while...
 │ spdx-license-ids@3.0.9    │ CC0            │ -              │ BSD + CC0      │
 │ sprintf-js@1.0.3          │ BSD 3 Clause   │ -              │ BSD 2 Clause + │
 │ stable@0.1.8              │ MIT            │ -              │ MIT            │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ stack-generator@2.0.5     │ MIT            │ MIT            │ -              │
 │ stackframe@1.2.0          │ MIT            │ MIT            │ -              │
 │ stacktrace-gps@3.0.4      │ MIT            │ MIT            │ -              │
 │ stacktrace-js@2.0.2       │ MIT            │ MIT            │ -              │
+│ string_decoder@1.1.1      │ MIT            │ MIT            │ -              │
 │ string-hash@1.1.3         │ CC0            │ -              │ CC0            │
 │ string-width@4.2.2        │ MIT            │ MIT            │ -              │
 │ string.prototype.trimend@ │ MIT            │ MIT            │ -              │
@@ -588,9 +720,6 @@ Working on "node_modules". It might take a while...
 │ svelte-spa-router@3.1.0   │ MIT            │ MIT            │ MIT            │
 │ svelte@3.38.2             │ MIT            │ MIT            │ MIT            │
 │ svgo@1.3.2                │ MIT            │ MIT            │ MIT            │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
-│ Module name               │ package        │ License        │ README         │
-├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ svgo@2.3.0                │ MIT            │ MIT            │ MIT            │
 │ table@6.7.1               │ BSD 3 Clause   │ -              │ -              │
 │ terser@5.7.0              │ BSD 2 Clause   │ BSD 2 Clause + │ -              │
@@ -598,6 +727,7 @@ Working on "node_modules". It might take a while...
 │ timsort@0.3.0             │ MIT            │ MIT            │ -              │
 │ tinydate@1.3.0            │ MIT            │ MIT            │ -              │
 │ tmp@0.0.33                │ MIT            │ MIT            │ -              │
+│ tmp@0.2.1                 │ MIT            │ MIT            │ -              │
 │ to-fast-properties@2.0.0  │ MIT            │ MIT            │ -              │
 │ to-regex-range@5.0.1      │ MIT            │ MIT            │ MIT            │
 │ totalist@1.1.0            │ MIT            │ MIT            │ -              │
@@ -606,28 +736,38 @@ Working on "node_modules". It might take a while...
 │ tslib@1.14.1              │ 0BSD           │ -              │ -              │
 │ tslib@2.2.0               │ 0BSD           │ -              │ -              │
 │ tsutils@3.21.0            │ MIT            │ MIT            │ -              │
+│ type-check@0.3.2          │ MIT            │ MIT            │ MIT            │
 │ type-check@0.4.0          │ MIT            │ MIT            │ MIT            │
 │ type-fest@0.20.2          │ CC0 + MIT      │ MIT            │ CC0            │
 │ typescript@4.3.2          │ Apache 2.0     │ Apache 2.0     │ -              │
 │ unbox-primitive@1.0.1     │ MIT            │ MIT            │ -              │
+│ undefined@6.9.0           │ -              │ -              │ -              │
 │ undefined@undefined       │ -              │ -              │ -              │
+│ union@0.5.0               │ -              │ MIT            │ MIT            │
 │ uniq@1.0.1                │ MIT            │ MIT            │ MIT            │
 │ uniqs@2.0.0               │ MIT            │ -              │ -              │
 │ universalify@0.1.2        │ MIT            │ MIT            │ -              │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
+│ Module name               │ package        │ License        │ README         │
+├───────────────────────────┼────────────────┼────────────────┼────────────────┤
 │ unquote@1.1.1             │ MIT            │ MIT            │ MIT            │
 │ uri-js@4.4.1              │ BSD 2 Clause   │ -              │ -              │
+│ url-join@2.0.5            │ MIT            │ MIT            │ -              │
 │ url@0.10.3                │ MIT            │ MIT            │ -              │
 │ util-deprecate@1.0.2      │ MIT            │ MIT            │ MIT            │
 │ util.promisify@1.0.1      │ MIT            │ MIT            │ -              │
 │ v8-compile-cache@2.3.0    │ MIT            │ MIT            │ -              │
 │ validate-npm-package-lice │ Apache 2.0     │ Apache 2.0     │ -              │
 │ vendors@1.0.4             │ MIT            │ MIT            │ MIT            │
+│ websocket-driver@0.7.4    │ Apache 2.0     │ Apache + Apach │ -              │
+│ websocket-extensions@0.1. │ Apache 2.0     │ Apache + Apach │ -              │
 │ which-boxed-primitive@1.0 │ MIT            │ MIT            │ -              │
 │ which@1.3.1               │ ISC            │ ISC            │ -              │
 │ which@2.0.2               │ ISC            │ ISC            │ -              │
 │ word-wrap@1.2.3           │ MIT            │ MIT            │ MIT            │
 │ wrappy@1.0.2              │ ISC            │ ISC            │ -              │
 │ ws@7.4.6                  │ MIT            │ MIT            │ MIT            │
+│ xmlhttprequest@1.8.0      │ MIT            │ MIT            │ MIT + W3C      │
 │ yallist@4.0.0             │ ISC            │ ISC            │ -              │
 │ yaml@1.10.2               │ ISC            │ ISC            │ -              │
 └───────────────────────────┴────────────────┴────────────────┴────────────────┘
@@ -637,24 +777,27 @@ Working on "node_modules". It might take a while...
 
    ┌────────────────────────────────────────────────────────────────────────┐
    │                                                                        │
-   │                             [1mLicenses (622)[22m                             │
+   │                             [1mLicenses (732)[22m                             │
    │                                                                        │
    ├──────────────────────────────────────────┬──────────────┬──────────────┤
    │ License                                  │ Number       │ %            │
    ├──────────────────────────────────────────┼──────────────┼──────────────┤
-   │ MIT                                      │ 500          │ 80           │
-   │ ISC                                      │ 40           │ 6            │
-   │ BSD 2 Clause                             │ 31           │ 4            │
+   │ MIT                                      │ 540          │ 73           │
+   │ Apache 2.0                               │ 54           │ 7            │
+   │ ISC                                      │ 43           │ 5            │
+   │ BSD 2 Clause                             │ 32           │ 4            │
+   │ BSD 3 Clause                             │ 24           │ 3            │
    │ CC0                                      │ 15           │ 2            │
-   │ BSD 3 Clause                             │ 12           │ 1            │
-   │ Apache 2.0                               │ 8            │ 1            │
-   │ W3C                                      │ 7            │ 1            │
+   │ W3C                                      │ 12           │ 1            │
    │ JSON                                     │ 3            │ 0            │
    │ 0BSD                                     │ 2            │ 0            │
    │ BSD                                      │ 1            │ 0            │
    │ CC BY 3.0                                │ 1            │ 0            │
    │ CC BY 4.0                                │ 1            │ 0            │
    │ CC-BY                                    │ 1            │ 0            │
+   │ GPL 3.0                                  │ 1            │ 0            │
+   │ WTFPL                                    │ 1            │ 0            │
+   │ Zlib                                     │ 1            │ 0            │
    └──────────────────────────────────────────┴──────────────┴──────────────┘
    
 
@@ -665,7 +808,8 @@ Working on "node_modules". It might take a while...
    │                                [1mReports[22m                                 │
    │                                                                        │
    ├────────────────────────────────────────────────────────────────────────┤
-   │ 0% of the dependencies are unlicensed (1/589)                          │
+   │ 4% of the dependencies are unlicensed (31/720)                         │
    └────────────────────────────────────────────────────────────────────────┘
    
+
 
