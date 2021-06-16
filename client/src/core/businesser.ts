@@ -6,6 +6,7 @@ import {
 	signInWithEmailAndPassword,
 	browserLocalPersistence,
 	signOut,
+	AuthError,
 } from 'firebase/auth';
 import type {
 	UserCredential,
@@ -66,12 +67,46 @@ export class Businesser {
 		});
 	}
 
-	public static async registerUser(email: string, password: string): Promise<UserCredential['user']> {
-		return (await createUserWithEmailAndPassword(Businesser.auth, email, password)).user;
+	public static async registerUser(email: string, password: string): Promise<UserCredential['user'] | null> {
+		try {
+			return (await createUserWithEmailAndPassword(Businesser.auth, email, password)).user;
+		} catch (err) {
+			if (err instanceof Error
+				&& (err as AuthError).code?.startsWith('auth/')) {
+				Ctx.globalToasts = [
+					ToastItem.from({
+						text: `Registration failed: ${(err as AuthError).code}`,
+						level: Levels.ERROR,
+					}),
+					...Ctx.globalToasts,
+				];
+
+				return null;
+			}
+
+			throw err;
+		}
 	}
 
-	public static async loginUser(email: string, password: string): Promise<UserCredential['user']> {
-		return (await signInWithEmailAndPassword(Businesser.auth, email, password)).user;
+	public static async loginUser(email: string, password: string): Promise<UserCredential['user'] | null> {
+		try {
+			return (await signInWithEmailAndPassword(Businesser.auth, email, password)).user;
+		} catch (err) {
+			if (err instanceof Error
+				&& (err as AuthError).code?.startsWith('auth/')) {
+				Ctx.globalToasts = [
+					ToastItem.from({
+						text: `Login failed: ${(err as AuthError).code}`,
+						level: Levels.ERROR,
+					}),
+					...Ctx.globalToasts,
+				];
+
+				return null;
+			}
+
+			throw err;
+		}
 	}
 
 	public static async logoutUser(): Promise<void> {
@@ -84,7 +119,9 @@ export class Businesser {
 			Ctx.globalSocket.addEventListener('message', this.onMessage);
 		}
 
-		await new Promise((resolve) => Ctx.globalSocket.addEventListener('open', resolve));
+		if (Ctx.globalSocket?.readyState !== Ctx.globalSocket?.OPEN) {
+			await new Promise((resolve) => Ctx.globalSocket.addEventListener('open', resolve));
+		}
 	}
 
 	public static createContexts(token: string): void {
