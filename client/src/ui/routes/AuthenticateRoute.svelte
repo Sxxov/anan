@@ -43,7 +43,7 @@ import ScrollableAppBar from '../blocks/appBars/ScrollableAppBar.svelte';
 		const token = await user.getIdToken(true);
 
 		Businesser.createContexts(token);
-		Businesser.createGlobalSocket(token);
+		await Businesser.createGlobalSocket(token);
 
 		const idTokenResult = await user.getIdTokenResult();
 
@@ -148,7 +148,7 @@ import ScrollableAppBar from '../blocks/appBars/ScrollableAppBar.svelte';
 		// 	return;
 		// }
 
-		// Businesser.createGlobalSocket(token);
+		// await Businesser.createGlobalSocket(token);
 
 		// Ctx.globalToasts = [
 		// 	ToastItem.from({

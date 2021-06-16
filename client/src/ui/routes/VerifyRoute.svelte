@@ -55,8 +55,7 @@
 			})).json();
 
 			if ((result as BaseResponse).name === ICSuccessVerifyResponse.name) {
-				Businesser.createGlobalSocket(Ctx.pingItem?.token);
-
+				await Businesser.createGlobalSocket(Ctx.pingItem?.token);
 				await push('/walkthrough');
 			}
 		} catch (_: unknown) {

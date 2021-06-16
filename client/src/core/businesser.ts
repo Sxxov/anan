@@ -59,7 +59,7 @@ export class Businesser {
 			Businesser.createContexts(token);
 
 			if ((idTokenResult.claims as unknown as CustomClaimsItem).identityValidated) {
-				Businesser.createGlobalSocket(token);
+				await Businesser.createGlobalSocket(token);
 			} else {
 				this.callbackMap.get('unvalidated')?.forEach((callback) => callback({ data: user }));
 			}
@@ -78,13 +78,13 @@ export class Businesser {
 		await signOut(Businesser.auth);
 	}
 
-	public static createGlobalSocket(token: string): void {
-		if (Ctx.globalSocket) {
-			return;
+	public static async createGlobalSocket(token: string): Promise<void> {
+		if (!Ctx.globalSocket) {
+			Ctx.globalSocket = new WebSocket(`wss://anan-server.herokuapp.com/api/v1/ws/connect?token=${token}`);
+			Ctx.globalSocket.addEventListener('message', this.onMessage);
 		}
 
-		Ctx.globalSocket = new WebSocket(`wss://anan-server.herokuapp.com/api/v1/ws/connect?token=${token}`);
-		Ctx.globalSocket.addEventListener('message', this.onMessage);
+		await new Promise((resolve) => Ctx.globalSocket.addEventListener('open', resolve));
 	}
 
 	public static createContexts(token: string): void {
@@ -97,10 +97,6 @@ export class Businesser {
 		});
 
 		Ctx.s.pingItem.subscribe((value) => {
-			console.log('value:', value);
-			console.log('Ctx.globalSocket?.readyState', Ctx.globalSocket?.readyState);
-			console.log('Ctx.globalSocket', Ctx.globalSocket);
-
 			if (Ctx.globalSocket?.readyState !== Ctx.globalSocket?.OPEN) {
 				return;
 			}
