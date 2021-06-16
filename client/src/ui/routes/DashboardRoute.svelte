@@ -2,8 +2,7 @@
 	import {
 		onDestroy, onMount,
 	} from 'svelte';
-
-	import { push } from 'svelte-spa-router';
+	import { replace } from 'svelte-spa-router';
 
 	import { writable } from 'svelte/store';
 	import type { Store } from '../../../../common/src/core/blocks/store';
@@ -20,13 +19,8 @@
 	import Tweet from '../components/Tweet.svelte';
 
 	export let isDemoMode = false;
-
-	if (!isDemoMode && (
-		Ctx.pingItem == null
-		|| Ctx.pingItem.token == null
-	)) {
-		push('/authenticate');
-	}
+	
+	const isAuthenticated = !isDemoMode && Ctx.pingItem?.token != null;
 
 	const isCallDialogActiveW = writable(false);
 	const signalsW: Store<typeof Ctx.signals> = Ctx.s.signals;
@@ -37,8 +31,7 @@
 	let watchId: number;
 	let gpsTimeoutHandle: ReturnType<typeof setTimeout>;
 
-	if (!isDemoMode
-		&& Ctx.pingItem) {
+	if (isAuthenticated) {
 		Ctx.globalToasts = [
 			ToastItem.from({
 				text: 'Attempting to get location...',
@@ -107,6 +100,8 @@
 			navigator.geolocation.clearWatch(watchId);
 			clearTimeout(gpsTimeoutHandle);
 		});
+	} else {
+		replace('/authenticate');
 	}
 </script>
 
